@@ -37,11 +37,11 @@ function getChatGPTResponse($url, $query)
                 if ($chatgpt_response['status']) {
                     return $chatgpt_response['data'];
                 }
-            }
 
-            // If none of the ChatGPT instances provide a valid response
-            return ["status" => false, "message" => "Unable to get a valid response from ChatGPT instances."];
-            break;
+                // If none of the ChatGPT instances provide a valid response
+                return ["status" => false, "message" => "Unable to get a valid response from ChatGPT instances."];
+                break;
+            }
         case "apinepdev":
             $api_url = "https://chatgpt.apinepdev.workers.dev/?question=" . urlencode($query);
             $response = file_get_contents($api_url);
@@ -90,7 +90,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             $message = trim(preg_replace($commandPattern, '', $message));
 
             // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse($message);
+            $response = getChatGPTResponse('apinepdev', $message);
 
             // Set response code - 200 success
             http_response_code(200);
@@ -104,7 +104,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     }
 
     // Further processing or reply generation can be added here based on the extracted message
-    $response = getChatGPTResponse($message);
+    $response = getChatGPTResponse('apinepdev', $message);
 
     // If "HTTP_COMMAND" header is not present, provide a different response
     // Set response code - 200 success
