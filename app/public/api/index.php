@@ -22,9 +22,9 @@ $myheader = $_SERVER['HTTP_XXXXXX_XXXX'];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getChatGPTResponse($url, $query)
+function getChatGPTResponse($api, $query)
 {
-    switch ($url) {
+    switch ($api) {
         case "vihangayt":
             $instances = [1, 2, 3, 4];
 
@@ -47,14 +47,16 @@ function getChatGPTResponse($url, $query)
             $response = file_get_contents($api_url);
             $chatgpt_response = json_decode($response, true);
 
-            // Check if the response status is true
-            if ($chatgpt_response['status']) {
-                return $chatgpt_response['data'];
+            // Check if the response status
+            if (isset($chatgpt_response['answer'])) {
+                return $chatgpt_response['answer'];
             }
 
             // If none of the ChatGPT provide a valid response
             return ["status" => false, "message" => "Unable to get a valid response from ChatGPT."];
             break;
+        default:
+            echo "API not found!";
     }
 }
 
