@@ -22,23 +22,40 @@ $myheader = $_SERVER['HTTP_XXXXXX_XXXX'];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getChatGPTResponse($query)
+function getChatGPTResponse($url, $query)
 {
-    $instances = [1, 2, 3, 4];
+    switch ($url) {
+        case "vihangayt":
+            $instances = [1, 2, 3, 4];
 
-    foreach ($instances as $instance) {
-        $api_url = "https://vihangayt.me/tools/chatgpt$instance?q=" . urlencode($query);
-        $response = file_get_contents($api_url);
-        $chatgpt_response = json_decode($response, true);
+            foreach ($instances as $instance) {
+                $api_url = "https://vihangayt.me/tools/chatgpt$instance?q=" . urlencode($query);
+                $response = file_get_contents($api_url);
+                $chatgpt_response = json_decode($response, true);
 
-        // Check if the response status is true
-        if ($chatgpt_response['status']) {
-            return $chatgpt_response['data'];
-        }
+                // Check if the response status is true
+                if ($chatgpt_response['status']) {
+                    return $chatgpt_response['data'];
+                }
+            }
+
+            // If none of the ChatGPT instances provide a valid response
+            return ["status" => false, "message" => "Unable to get a valid response from ChatGPT instances."];
+            break;
+        case "apinepdev":
+            $api_url = "https://chatgpt.apinepdev.workers.dev/?question=" . urlencode($query);
+            $response = file_get_contents($api_url);
+            $chatgpt_response = json_decode($response, true);
+
+            // Check if the response status is true
+            if ($chatgpt_response['status']) {
+                return $chatgpt_response['data'];
+            }
+
+            // If none of the ChatGPT provide a valid response
+            return ["status" => false, "message" => "Unable to get a valid response from ChatGPT."];
+            break;
     }
-
-    // If none of the ChatGPT instances provide a valid response
-    return ["status" => false, "message" => "Unable to get a valid response from ChatGPT instances."];
 }
 
 // Make sure JSON data is not incomplete
