@@ -22,7 +22,6 @@ $myheader = $_SERVER['HTTP_XXXXXX_XXXX'];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-
 function getSimsimiResponse($message, $language, $apiKey = '')
 {
     // SimSimi API URL
@@ -90,27 +89,24 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         // Get the command pattern from the header
         $commandPattern = $_SERVER['HTTP_COMMAND'];
 
-        // Check if the message contains a valid command
-        if (preg_match($commandPattern, $message)) {
-            // Remove the command from the message and trim the result
-            $message = trim(preg_replace($commandPattern, '', $message));
+        // Remove the command from the message and trim the result
+        $message = trim(preg_replace($commandPattern, '', $message));
 
-            // Headers
-            $language = $_SERVER['HTTP_LANGUAGE'];
-            $apiKey = $_SERVER['HTTP_APIKEY'];
+        // Headers
+        $language = $_SERVER['HTTP_LANGUAGE'];
+        $apiKey = $_SERVER['HTTP_APIKEY'];
 
-            // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse($message, $language, $apiKey);
+        // Further processing or reply generation can be added here based on the extracted message
+        $response = getChatGPTResponse($message, $language, $apiKey);
 
-            // Set response code - 200 success
-            http_response_code(200);
+        // Set response code - 200 success
+        http_response_code(200);
 
-            // Send one or multiple replies to AutoResponder
-            echo json_encode(["replies" => [["message" => $response]]]);
+        // Send one or multiple replies to AutoResponder
+        echo json_encode(["replies" => [["message" => $response]]]);
 
-            // Exit the script to avoid processing the message further
-            exit();
-        }
+        // Exit the script to avoid processing the message further
+        exit();
     }
 
     // Headers
