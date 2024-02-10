@@ -33,30 +33,25 @@ function getChatGPTResponse($api, $query)
                 $response = file_get_contents($api_url);
                 $chatgpt_response = json_decode($response, true);
 
-                // Check if the response status is true
-                if ($chatgpt_response['status']) {
-                    return $chatgpt_response['data'];
+                // Check if the response status is true and contains 'message'
+                if ($chatgpt_response['status'] && isset($chatgpt_response['data']['message'])) {
+                    return $chatgpt_response['data']['message'];
                 }
-
-                // If none of the ChatGPT instances provide a valid response
-                return ["status" => false, "message" => "Unable to get a valid response from ChatGPT instances."];
-                break;
             }
+
+            // If none of the ChatGPT instances provide a valid response
+            return null;
+
         case "apinepdev":
             $api_url = "https://chatgpt.apinepdev.workers.dev/?question=" . urlencode($query);
             $response = file_get_contents($api_url);
             $chatgpt_response = json_decode($response, true);
 
-            // Check if the response status
-            if (isset($chatgpt_response['answer'])) {
-                return $chatgpt_response['answer'];
-            }
+            // Check if the response contains 'message'
+            return isset($chatgpt_response['message']) ? $chatgpt_response['message'] : null;
 
-            // If none of the ChatGPT provide a valid response
-            return ["status" => false, "message" => "Unable to get a valid response from ChatGPT."];
-            break;
         default:
-            echo "API not found!";
+            return null; // Return null for unknown API
     }
 }
 
@@ -86,23 +81,20 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         // Get the command pattern from the header
         $commandPattern = $_SERVER['HTTP_COMMAND'];
 
-        // Check if the message contains a valid command
-        if (preg_match($commandPattern, $message)) {
-            // Remove the command from the message and trim the result
-            $message = trim(preg_replace($commandPattern, '', $message));
+        // Remove the command from the message and trim the result
+        $message = trim(preg_replace($commandPattern, '', $message));
 
-            // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse('apinepdev', $message);
+        // Further processing or reply generation can be added here based on the extracted message
+        $response = getChatGPTResponse('apinepdev', $message);
 
-            // Set response code - 200 success
-            http_response_code(200);
+        // Set response code - 200 success
+        http_response_code(200);
 
-            // Send one or multiple replies to AutoResponder
-            echo json_encode(["replies" => [["message" => $response]]]);
+        // Send one or multiple replies to AutoResponder
+        echo json_encode(["replies" => [["message" => $response]]]);
 
-            // Exit the script to avoid processing the message further
-            exit();
-        }
+        // Exit the script to avoid processing the message further
+        exit();
     }
 
     // Further processing or reply generation can be added here based on the extracted message
