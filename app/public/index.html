@@ -3,164 +3,36 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>AutresGPT</title>
-        <style>
-            body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #f8f9fa;
-                color: #495057;
-            }
-
-            h1,
-            h2 {
-                color: #007bff;
-            }
-
-            code {
-                background-color: #f0f0f0;
-                padding: 2px 6px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                font-family: "Courier New", Courier, monospace;
-                color: #495057;
-            }
-
-            .language-selector select {
-                padding: 5px;
-                font-size: 14px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-            }
-
-            footer {
-                margin-top: 20px;
-                padding-top: 10px;
-                border-top: 1px solid #ddd;
-                text-align: center;
-                color: #6c757d;
-            }
-
-            footer a {
-                color: #007bff;
-                text-decoration: none;
-            }
-        </style>
+        <title>API Autres</title>
+        <link rel="stylesheet" href="assets/css/styles.css" />
     </head>
     <body>
-        <h1>AutresGPT</h1>
+        <div class="container">
+            <h1>Welcome to API Autres!</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
-        <!-- Language Selection -->
-        <div class="language-selector">
-            <label for="language-select">Select Language:</label>
-            <select id="language-select" onchange="changeLanguage()">
-                <option value="en" selected>English</option>
-                <option value="id">Indonesia</option>
-            </select>
+            <div id="apiOptions">
+                <label for="apiSelect">Choose an API:</label>
+                <select id="apiSelect" onchange="displayApiInfo()">
+                    <option value="api1">API Option 1</option>
+                    <option value="api2">API Option 2</option>
+                    <option value="api3">API Option 3</option>
+                </select>
+
+                <div id="apiInfo">
+                    <p>Select an API to see more information.</p>
+                </div>
+
+                <div id="apiLinks">
+                    <button id="apiLinkBtn" disabled>Visit API</button>
+                </div>
+            </div>
         </div>
 
-        <!-- Content in English -->
-        <div id="content-en">
-            <h2>Usage Guide</h2>
-            
-            <h2>1. Adding a New Rule in AutoResponder</h2>
-            <p>
-                - Open the AutoResponder application on your Android device.<br />
-                - Select the option to add a new rule.
-            </p>
-
-            <h2>2. Configuring Rules in AutoResponder</h2>
-            <p>
-                - In your new rule, specify the received messages that should be processed by the AutresGPT Web Server.<br />
-                - It is recommended to use the "All" button in the upper right corner to process all messages with your web server.
-            </p>
-
-            <h2>3. Setting up Web Server Options in AutoResponder</h2>
-            <p>
-                - Choose the "Web Server" option in your AutoResponder rule.<br />
-                - Enter the complete URL of the AutresGPT web server provided by your provider (example: <code>https://autresgpt.bohr.io/api/index.php</code>).
-            </p>
-
-            <h2>4. Configuring the "commands" Header (Optional)</h2>
-            <p>
-                - Add the "commands" header to process messages with specific commands.<br />
-                - Example: <code>commands: ^/chatgpt\s*</code> (will capture the part of the message after the "/chatgpt" command).
-            </p>
-
-            <h2>5. Additional Options (Optional)</h2>
-            <p>
-                - Basic Auth and Headers options are optional. For more information, refer to the comments in the PHP code above if you wish to use them. It is recommended to add authorization if your API provides access to sensitive
-                information.
-            </p>
-
-            <h2>6. Finished!</h2>
-            <p>
-                - You are now ready to test your web server integration.<br />
-                - Send messages and check if the AutresGPT Web Server provides the expected responses.
-            </p>
-        </div>
-
-        <!-- Content in Indonesian -->
-        <div id="content-id" style="display: none;">
-            <h2>Panduan Penggunaan</h2>
-            
-            <h2>1. Menambahkan Aturan Baru di AutoResponder</h2>
-            <p>
-                - Buka aplikasi AutoResponder di perangkat Android Anda.<br />
-                - Pilih opsi untuk menambahkan aturan baru.
-            </p>
-
-            <h2>2. Konfigurasi Aturan di AutoResponder</h2>
-            <p>
-                - Di aturan baru Anda, tentukan pesan yang diterima yang harus diproses oleh AutresGPT Web Server.<br />
-                - Disarankan menggunakan tombol "All" di sudut kanan atas untuk memproses semua pesan dengan web server Anda.
-            </p>
-
-            <h2>3. Mengatur Opsi Web Server di AutoResponder</h2>
-            <p>
-                - Pilih opsi "Web Server" di aturan AutoResponder Anda.<br />
-                - Masukkan URL lengkap dari web server AutresGPT yang diberikan oleh penyedia (contoh: <code>https://autresgpt.bohr.io/api/index.php</code>).
-            </p>
-
-            <h2>4. Mengatur Header "commands" (Opsional)</h2>
-            <p>
-                - Tambahkan header "commands" untuk memproses pesan dengan perintah khusus.<br />
-                - Contoh: <code>commands: ^/chatgpt\s*</code> (akan mengambil bagian pesan setelah perintah "/chatgpt").
-            </p>
-
-            <h2>5. Opsi Tambahan (Opsional)</h2>
-            <p>
-                - Opsi Basic Auth dan Headers bersifat opsional. Untuk informasi lebih lanjut, lihat komentar dalam kode PHP di atas jika Anda ingin menggunakannya. Disarankan untuk menambahkan otorisasi jika API Anda memberikan akses ke
-                informasi sensitif.
-            </p>
-
-            <h2>6. Selesai!</h2>
-            <p>
-                - Anda sekarang siap untuk menguji integrasi web server Anda.<br />
-                - Kirimkan pesan dan periksa apakah AutresGPT Web Server memberikan respons yang diharapkan.
-            </p>
-        </div>
-
-        <script>
-            // Function to change language
-            function changeLanguage() {
-                var selectedLanguage = document.getElementById("language-select").value;
-
-                // Hide/show content based on selected language
-                document.getElementById("content-en").style.display = selectedLanguage === "en" ? "block" : "none";
-                document.getElementById("content-id").style.display = selectedLanguage === "id" ? "block" : "none";
-            }
-        </script>
-
-        <!-- Credits Section -->
         <footer>
-            <p>
-                &copy; 2023 AutresGPT. All rights reserved. | Created by <a href="https://itsreimau.bohr.io" target="_blank" style="color: #007bff;">ItsReimau</a> | Hosted by
-                <a href="https://bohr.io" target="_blank" style="color: #007bff;">Bohr.io</a> | Powered by ChatGPT API from
-                <a href="https://vihangayt.com" target="_blank" style="color: #007bff;">VihangaYT</a>
-            </p>
+            <p>&copy; 2024 API Autres. All rights reserved.</p>
         </footer>
+
+        <script src="assets/js/script.js"></script>
     </body>
 </html>
