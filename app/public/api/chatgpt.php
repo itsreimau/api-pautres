@@ -41,7 +41,7 @@ function getChatGPTResponse($api, $query)
 
             // If none of the ChatGPT instances provide a valid response
             return null;
-
+            break;
         case "apinepdev":
             $api_url = "https://chatgpt.apinepdev.workers.dev/?question=" . urlencode($query);
             $response = file_get_contents($api_url);
@@ -49,7 +49,7 @@ function getChatGPTResponse($api, $query)
 
             // Check if the response contains 'message'
             return isset($chatgpt_response['message']) ? $chatgpt_response['message'] : null;
-
+            break;
         default:
             return null; // Return null for unknown API
     }
