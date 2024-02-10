@@ -22,22 +22,22 @@ $myheader = $_SERVER['HTTP_XXXXXX_XXXX'];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getSimsimiResponse($message, $lang = 'en')
+function getSimsimiResponse($message, $language)
 {
     // API URL
-    $apiUrl = "https://simsimi.fun/api/v2/?mode=talk&lang=$lang&message=" . urlencode($message) . "&filter=true";
+    $apiUrl = "https://simsimi.fun/api/v2/?mode=talk&lang=$language&message=" . urlencode($message) . "&filter=true";
 
-    // Mengambil response dari API
+    // Retrieves response from API
     $response = file_get_contents($apiUrl);
 
-    // Parsing response JSON
+    // Parse JSON responses
     $data = json_decode($response, true);
 
-    // Memastikan bahwa request berhasil dan ada kunci 'success' dalam response
+    // Ensure that the request is successful and that there is a 'success' key in the response
     if ($data && isset($data['success'])) {
         return $data['success'];
     } else {
-        // Jika terdapat kesalahan dalam request atau response tidak sesuai, kembalikan null atau handle sesuai kebutuhan
+        // If there is an error in the request or the response is inappropriate, return null or handle as needed
         return null;
     }
 }
@@ -74,10 +74,10 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             $message = trim(preg_replace($commandPattern, '', $message));
 
             // Language
-            $lang = $_SERVER['HTTP_LANGUAGE'];
+            $language = $_SERVER['HTTP_LANGUAGE'];
 
             // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse($message, $lang);
+            $response = getChatGPTResponse($message, $language);
 
             // Set response code - 200 success
             http_response_code(200);
@@ -91,10 +91,10 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     }
 
     // Language
-    $lang = $_SERVER['HTTP_LANGUAGE'];
+    $language = $_SERVER['HTTP_LANGUAGE'];
 
     // Further processing or reply generation can be added here based on the extracted message
-    $response = getSimsimiResponse($message, $lang);
+    $response = getSimsimiResponse($message, $language);
 
     // If "HTTP_COMMAND" header is not present, provide a different response
     // Set response code - 200 success
