@@ -22,24 +22,46 @@ $myheader = $_SERVER['HTTP_XXXXXX_XXXX'];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getSimsimiResponse($message, $language)
+
+function getSimsimiResponse($message, $language, $apiKey = '')
 {
-    // API URL
-    $apiUrl = "https://simsimi.fun/api/v2/?mode=talk&lang=$language&message=" . urlencode($message) . "&filter=true";
+    // SimSimi API URL
+    $apiUrl = 'https://api.simsimi.vn/v1/simtalk';
 
-    // Retrieves response from API
-    $response = file_get_contents($apiUrl);
+    // Prepare POST data
+    $postData = [
+        'text' => $message,
+        'lc' => $language,
+        'key' => $apiKey,
+    ];
 
-    // Parse JSON responses
-    $data = json_decode($response, true);
+    // Initialize cURL session
+    $ch = curl_init();
 
-    // Ensure that the request is successful and that there is a 'success' key in the response
-    if ($data && isset($data['success'])) {
-        return $data['success'];
-    } else {
-        // If there is an error in the request or the response is inappropriate, return null or handle as needed
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
+
+    // Execute cURL session and get the API response
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        // You may want to handle the error appropriately, for example, log it
         return null;
     }
+
+    // Close cURL session
+    curl_close($ch);
+
+    // Decode the JSON response
+    $result = json_decode($response, true);
+
+    // Check if the response contains 'message' and return it, otherwise return null
+    return isset($result['message']) ? $result['message'] : null;
 }
 
 // Make sure JSON data is not incomplete
@@ -73,11 +95,12 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             // Remove the command from the message and trim the result
             $message = trim(preg_replace($commandPattern, '', $message));
 
-            // Language
+            // Headers
             $language = $_SERVER['HTTP_LANGUAGE'];
+            $apiKey = $_SERVER['HTTP_APIKEY'];
 
             // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse($message, $language);
+            $response = getChatGPTResponse($message, $language, $apiKey);
 
             // Set response code - 200 success
             http_response_code(200);
@@ -90,11 +113,12 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         }
     }
 
-    // Language
+    // Headers
     $language = $_SERVER['HTTP_LANGUAGE'];
+    $apiKey = $_SERVER['HTTP_APIKEY'];
 
     // Further processing or reply generation can be added here based on the extracted message
-    $response = getSimsimiResponse($message, $language);
+    $response = getSimsimiResponse($message, $language, $apiKey);
 
     // If "HTTP_COMMAND" header is not present, provide a different response
     // Set response code - 200 success
