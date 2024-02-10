@@ -10,18 +10,13 @@ function displayApiInfo() {
     // Display different information based on the selected API
     switch (selectedOption) {
         case "api1":
-            apiInfoDiv.innerHTML = "<p>Explanation for API Option 1.</p>" + "<p><strong>Headers:</strong><br>Authorization: Bearer your_token<br>Content-Type: application/json</p>";
-            apiLinkBtn.innerHTML = '<a href="https://api1.example.com" target="_blank">Visit API</a>';
+            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>Commands: ^/(ai|chatgpt)\s</p>";
+            apiLinkBtn.innerHTML = '<a href="api/chatgpt.php" target="_blank">Visit API</a>';
             apiLinkBtn.disabled = false;
             break;
         case "api2":
-            apiInfoDiv.innerHTML = "<p>Explanation for API Option 2.</p>" + "<p><strong>Headers:</strong><br>ApiKey: your_api_key<br>Content-Type: application/xml</p>";
-            apiLinkBtn.innerHTML = '<a href="https://api2.example.com" target="_blank">Visit API</a>';
-            apiLinkBtn.disabled = false;
-            break;
-        case "api3":
-            apiInfoDiv.innerHTML = "<p>Explanation for API Option 3.</p>" + "<p><strong>Headers:</strong><br>Token: your_token<br>Content-Type: application/x-www-form-urlencoded</p>";
-            apiLinkBtn.innerHTML = '<a href="https://api3.example.com" target="_blank">Visit API</a>';
+            apiInfoDiv.innerHTML = "<p>API to get a response from Simsimi.</p>" + "<p><strong>Headers:</strong><br>Commands: ^/(simsimi|simi) - Optional, use if you want to be called on command.\s<br>Language: en - Available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, ja, es, de, etc.)</p>";
+            apiLinkBtn.innerHTML = '<a href="api/simsimi.php" target="_blank">Visit API</a>';
             apiLinkBtn.disabled = false;
             break;
         default:
