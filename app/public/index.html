@@ -14,8 +14,10 @@
             <div id="apiOptions">
                 <label for="apiSelect">Choose an API:</label>
                 <select id="apiSelect" onchange="displayApiInfo()">
-                    <option value="api1">ChatGPT</option>
-                    <option value="api2">Simsimi</option>
+                    <optgroup label="Tools">
+                        <option value="api1">ChatGPT</option>
+                        <option value="api2">Simsimi</option>
+                    </optgroup>
                 </select>
 
                 <div id="apiInfo">
