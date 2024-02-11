@@ -10,12 +10,12 @@ function displayApiInfo() {
     // Display different information based on the selected API
     switch (selectedOption) {
         case "api1":
-            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>Commands: ^/(ai|chatgpt)\s</p>";
+            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND</p>";
             apiLinkBtn.innerHTML = '<a href="api/chatgpt.php" target="_blank">Visit API</a>';
             apiLinkBtn.disabled = false;
             break;
         case "api2":
-            apiInfoDiv.innerHTML = "<p>API to get a response from Simsimi.</p>" + "<p><strong>Headers:</strong><br>Commands: ^/(simsimi|simi) - Optional, use if you want to be called on command.\s<br>Language: en - Available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, ja, es, de, etc.)</p>";
+            apiInfoDiv.innerHTML = "<p>API to get a response from Simsimi.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, james, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
             apiLinkBtn.innerHTML = '<a href="api/simsimi.php" target="_blank">Visit API</a>';
             apiLinkBtn.disabled = false;
             break;
