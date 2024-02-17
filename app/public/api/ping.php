@@ -44,20 +44,23 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     // Check if the "HTTP_COMMAND" header exists
     if (isset($_SERVER["HTTP_COMMAND"])) {
-        // Get the command pattern from the header
-        $commandPattern = '/^' . preg_quote($_SERVER["HTTP_COMMAND"], '/') . '\s*/';
+        // Get the command from the header
+        $command = $_SERVER["HTTP_COMMAND"];
 
-        // Remove the command from the message and trim the result
-        $message = trim(preg_replace($commandPattern, '', $message));
+        // Check if the message starts with the command
+        if (strpos($message, $command) === 0) {
+            // Remove the command from the message
+            $message = trim(substr($message, strlen($command)));
 
-        // Set response code - 200 success
-        http_response_code(200);
+            // Set response code - 200 success
+            http_response_code(200);
 
-        // Send one or multiple replies to AutoResponder
-        echo json_encode(["replies" => [["message" => $message]]]);
+            // Send one or multiple replies to AutoResponder
+            echo json_encode(["replies" => [["message" => $message]]]);
 
-        // Exit the script to avoid processing the message further
-        exit();
+            // Exit the script to avoid processing the message further
+            exit();
+        }
     }
 
     // If "HTTP_COMMAND" header is not present, provide a different response
