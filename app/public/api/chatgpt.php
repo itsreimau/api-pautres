@@ -93,7 +93,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             http_response_code(200);
 
             // Send one or multiple replies to AutoResponder
-            echo json_encode(["replies" => [["message" => $message]]]);
+            echo json_encode(["replies" => [["message" => $response]]]);
 
             // Exit the script to avoid processing the message further
             exit();
