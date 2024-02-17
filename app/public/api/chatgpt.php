@@ -54,9 +54,9 @@ function getChatGPTResponse($api, $query)
       $response = file_get_contents($api_url);
       $chatgpt_response = json_decode($response, true);
 
-      // Check if the response contains 'message'
-      return isset($chatgpt_response["message"])
-        ? $chatgpt_response["message"]
+      // Check if the response contains 'answer'
+      return isset($chatgpt_response["answer"])
+        ? $chatgpt_response["answer"]
         : null;
       break;
     default:
