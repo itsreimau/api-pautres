@@ -21,12 +21,6 @@ $myheader = $_SERVER["HTTP_XXXXXX_XXXX"];
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Function
-function get($api, $query)
-{
-    return null; // Return null for unknown API
-}
-
 // Make sure JSON data is not incomplete
 if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messengerPackageName) && !empty($data->query->sender) && !empty($data->query->message)) {
     // Package name of AutoResponder to detect which AutoResponder the message comes from
@@ -54,34 +48,24 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         $commandPattern = $_SERVER["HTTP_COMMAND"];
 
         // Remove the command from the message and trim the result
-        $messageTrim = trim(preg_replace($commandPattern, "", $message));
-
-        // Further processing or reply generation can be added here based on the extracted message
-        $response = getChatGPTResponse("apinepdev", $message);
+        $message = trim(preg_replace($commandPattern, "", $message));
 
         // Set response code - 200 success
         http_response_code(200);
 
         // Send one or multiple replies to AutoResponder
-        echo json_encode([
-            "replies" => [["message" => "Hey " . $sender . "!\nThanks for sending: " . $messageTrim], ["message" => "Success ✅"]],
-        ]);
+        echo json_encode(["replies" => [["message" => $message]]]);
 
         // Exit the script to avoid processing the message further
         exit();
     }
-
-    // Further processing or reply generation can be added here based on the extracted message
-    $response = getChatGPTResponse("apinepdev", $message);
 
     // If "HTTP_COMMAND" header is not present, provide a different response
     // Set response code - 200 success
     http_response_code(200);
 
     // Send one or multiple replies to AutoResponder
-    echo json_encode([
-        "replies" => [["message" => "Hey " . $sender . "!\nThanks for sending: " . $message], ["message" => "Success ✅"]],
-    ]);
+    echo json_encode(["replies" => [["message" => $message]]]);
 
     // Or this instead for no reply:
     // echo json_encode(array("replies" => array()));
