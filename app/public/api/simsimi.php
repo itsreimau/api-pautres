@@ -99,7 +99,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             $apiKey = $_SERVER["HTTP_APIKEY"];
 
             // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse($message, $language, $apiKey);
+            $response = getSimsimiResponse($message, $language, $apiKey);
 
             // Set response code - 200 success
             http_response_code(200);
