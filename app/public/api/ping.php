@@ -45,10 +45,10 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     // Check if the "HTTP_COMMAND" header exists
     if (isset($_SERVER["HTTP_COMMAND"])) {
         // Get the command pattern from the header
-        $commandPattern = $_SERVER["HTTP_COMMAND"];
+        $commandPattern = '/^' . preg_quote($_SERVER["HTTP_COMMAND"], '/') . '\s*/';
 
         // Remove the command from the message and trim the result
-        $message = trim(preg_replace($commandPattern, "", $message));
+        $message = trim(preg_replace($commandPattern, '', $message));
 
         // Set response code - 200 success
         http_response_code(200);
