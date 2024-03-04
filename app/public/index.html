@@ -14,9 +14,13 @@
             <div id="apiOptions">
                 <label for="apiSelect">Choose an API:</label>
                 <select id="apiSelect" onchange="displayApiInfo()">
+                    <option value="" disabled selected hidden>Click here</option>
+                    <optgroup label="Random Text">
+                        <option value="">Coming Soon</option>
+                    </optgroup>
                     <optgroup label="Tools">
-                        <option value="api1">ChatGPT</option>
-                        <option value="api2">Simsimi</option>
+                        <option value="tools-chatgpt">ChatGPT</option>
+                        <option value="tools-simsimi">Simsimi</option>
                     </optgroup>
                 </select>
 
@@ -31,7 +35,7 @@
         </div>
 
         <footer>
-            <p>&copy; 2024 ItsReimau. All rights reserved.</p>
+            <p>Copyright &copy; 2024 ItsReimau. All Rights Reserved.</p>
         </footer>
 
         <script src="assets/js/script.js"></script>
