@@ -18,7 +18,7 @@ function getChatGPTResponse($api, $query, $uid)
 {
     switch ($api) {
         case "ai-tools":
-            $api_url = "https://ai-tools.replit.app/gpt?prompt=" . urlencode($query) . "&uid=" . urldecode($uid);
+            $api_url = "https://ai-tools.replit.app/gpt?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
             $response = @file_get_contents($api_url);
             return $response ? json_decode($response, true)["gpt4"] : null;
         case "vihangayt":
