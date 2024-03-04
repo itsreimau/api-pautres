@@ -16,7 +16,12 @@
                 <select id="apiSelect" onchange="displayApiInfo()">
                     <option value="" disabled selected hidden>Click here</option>
                     <optgroup label="Random Text">
-                        <option value="">Coming Soon</option>
+                        <option value="bucin">Bucin</option>
+                        <option value="dare">Dare</option>
+                        <option value="hacker">Hacker</option>
+                        <option value="pantun">Pantun</option>
+                        <option value="quotes">Quotes</option>
+                        <option value="truth">Truth</option>
                     </optgroup>
                     <optgroup label="Tools">
                         <option value="chatgpt">ChatGPT</option>
@@ -29,7 +34,7 @@
                 </div>
 
                 <div id="apiLinks">
-                    <button id="apiLinkBtn" disabled>Visit API</button>
+                    <button id="apiLinkBtn" disabled onclick="visitApi()">Visit API</button>
                 </div>
             </div>
         </div>
