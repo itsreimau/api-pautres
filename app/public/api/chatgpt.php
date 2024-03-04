@@ -22,9 +22,17 @@ $myheader = $_SERVER["HTTP_XXXXXX_XXXX"];
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getChatGPTResponse($api, $query)
+function getChatGPTResponse($api, $query, $uid)
 {
     switch ($api) {
+        case "ai-tools":
+            $api_url = "https://ai-tools.replit.app/gpt?prompt=" . urlencode($query) . "&uid=" . urldecode($uid);
+            $response = file_get_contents($api_url);
+            $chatgpt_response = json_decode($response, true);
+
+            // Check if the response contains 'answer'
+            return isset($chatgpt_response["gpt4"]) ? $chatgpt_response["gpt4"] : null;
+            break;
         case "vihangayt":
             $instances = [1, 2, 3, 4];
 
@@ -87,7 +95,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             $message = trim(substr($message, strlen($command)));
 
             // Further processing or reply generation can be added here based on the extracted message
-            $response = getChatGPTResponse("apinepdev", $message);
+            $response = getChatGPTResponse("ai-tools", $message, $sender);
 
             // Set response code - 200 success
             http_response_code(200);
@@ -101,7 +109,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     }
 
     // Further processing or reply generation can be added here based on the extracted message
-    $response = getChatGPTResponse("apinepdev", $message);
+    $response = getChatGPTResponse("ai-tools", $message, $sender);
 
     // If "HTTP_COMMAND" header is not present, provide a different response
     // Set response code - 200 success
