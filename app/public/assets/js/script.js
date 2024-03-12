@@ -9,6 +9,16 @@ function displayApiInfo() {
 
     // Display different information based on the selected API
     switch (selectedOption) {
+        // Islamic
+        case "hijr":
+            apiInfoDiv.innerHTML = "<p>API to get the current Hijri date.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.</p>";
+            apiLinkBtn.disabled = false;
+            break;
+        case "sholat":
+            apiInfoDiv.innerHTML = "<p>API to get prayer schedules now.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.</p>";
+            apiLinkBtn.disabled = false;
+            break;
+
         // Random Text
         case "bucin":
             apiInfoDiv.innerHTML = "<p>API to get text Bucin randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
@@ -42,7 +52,8 @@ function displayApiInfo() {
             break;
         case "simsimi":
             apiInfoDiv.innerHTML =
-                "<p>API to get a response from Simsimi.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
+                "<p>API to get a response from Simsimi.</p>" +
+                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
             apiLinkBtn.disabled = false;
             break;
         default:
@@ -57,6 +68,14 @@ function visitApi() {
     var selectedOption = select.options[select.selectedIndex].value;
 
     switch (selectedOption) {
+        // Islamic
+        case "hijr":
+            window.open("api/hijr.php", "_blank");
+            break;
+        case "sholat":
+            window.open("api/sholat.php", "_blank");
+            break;
+
         // Random Text
         case "bucin":
             window.open("api/bucin.php", "_blank");
@@ -77,7 +96,7 @@ function visitApi() {
             window.open("api/truth.php", "_blank");
             break;
 
-        // Tools
+            // Tools
         case "chatgpt":
             window.open("api/chatgpt.php", "_blank");
             break;

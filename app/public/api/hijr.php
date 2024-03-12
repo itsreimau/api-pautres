@@ -14,33 +14,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getChatGPTResponse($api, $query, $uid)
+function getHijrResponse($adjustment = -1)
 {
-    switch ($api) {
-        case "ai-tools":
-            $api_url = "https://ai-tools.replit.app/gpt?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
-            $response = @file_get_contents($api_url);
-            return $response ? json_decode($response, true)["gpt4"] : null;
-        case "vihangayt":
-            $instances = [1, 2, 3, 4];
-            foreach ($instances as $instance) {
-                $api_url = "https://vihangayt.me/tools/chatgpt$instance?q=" . urlencode($query);
-                $response = @file_get_contents($api_url);
-                if ($response) {
-                    $chatgpt_response = json_decode($response, true);
-                    if ($chatgpt_response["status"] && isset($chatgpt_response["data"]["message"])) {
-                        return $chatgpt_response["data"]["message"];
-                    }
-                }
-            }
-            return null;
-        case "apinepdev":
-            $api_url = "https://chatgpt.apinepdev.workers.dev/?question=" . urlencode($query);
-            $response = @file_get_contents($api_url);
-            return $response ? json_decode($response, true)["answer"] : null;
-        default:
-            return null;
-    }
+    // URL API
+    $api_url = "https://api.myquran.com/v2/cal/hijr/?adj=" . $adjustment;
+    $json_data = file_get_contents($api_url);
+    $data = json_decode($json_data, true);
+    return $data['data']['date'];
 }
 
 // Make sure JSON data is not incomplete
@@ -59,16 +39,18 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         $command = $_SERVER["HTTP_COMMAND"];
         if (strpos($message, $command) === 0) {
             $message = trim(substr($message, strlen($command)));
-            $response = getChatGPTResponse("ai-tools", $message, $sender);
+            $result = getHijrResponse(-1);
+            $response = implode("\n• ", $result);
             http_response_code(200);
-            echo json_encode(["replies" => [["message" => $response]]]);
+            echo json_encode(["replies" => [["message" => trim($response)]]]);
             exit();
         }
     }
 
-    $response = getChatGPTResponse("ai-tools", $message, $sender);
+    $result = getHijrResponse(-1);
+    $response = implode("\n• ", $result);
     http_response_code(200);
-    echo json_encode(["replies" => [["message" => $response]]]);
+    echo json_encode(["replies" => [["message" => trim($response)]]]);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);

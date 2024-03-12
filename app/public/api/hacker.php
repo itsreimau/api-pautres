@@ -79,13 +79,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     echo json_encode(["replies" => [["message" => pickRandom($hacker)]]]);
 } else {
     http_response_code(400);
-    echo json_encode([
-        "replies" => [
-            ["message" => "❌ Error!"],
-            [
-                "message" => "JSON data is incomplete. Was the request sent by AutoResponder?",
-            ],
-        ],
-    ]);
+    echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
 }
 ?>

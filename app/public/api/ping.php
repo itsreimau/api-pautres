@@ -30,22 +30,15 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         if (strpos($message, $command) === 0) {
             $message = trim(substr($message, strlen($command)));
             http_response_code(200);
-            echo json_encode(["replies" => [["message" => $message]]]);
+            echo json_encode(["replies" => [["message" => "Pong!"], ["message" => $message]]]);
             exit();
         }
     }
 
     http_response_code(200);
-    echo json_encode(["replies" => [["message" => $message]]]);
+    echo json_encode(["replies" => [["message" => "Pong!"], ["message" => $message]]]);
 } else {
     http_response_code(400);
-    echo json_encode([
-        "replies" => [
-            ["message" => "❌ Error!"],
-            [
-                "message" => "JSON data is incomplete. Was the request sent by AutoResponder?",
-            ],
-        ],
-    ]);
+    echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
 }
 ?>
