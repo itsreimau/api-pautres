@@ -3,11 +3,8 @@ function displayApiInfo() {
     var selectedOption = select.options[select.selectedIndex].value;
     var apiInfoDiv = document.getElementById("apiInfo");
     var apiLinkBtn = document.getElementById("apiLinkBtn");
-
-    // Clear previous content
     apiInfoDiv.innerHTML = "";
 
-    // Display different information based on the selected API
     switch (selectedOption) {
         // Islamic
         case "hijr":
@@ -96,7 +93,7 @@ function visitApi() {
             window.open("api/truth.php", "_blank");
             break;
 
-            // Tools
+        // Tools
         case "chatgpt":
             window.open("api/chatgpt.php", "_blank");
             break;
@@ -104,7 +101,46 @@ function visitApi() {
             window.open("api/simsimi.php", "_blank");
             break;
         default:
-            // Handle other cases if needed
             break;
     }
+}
+
+function visitCredits(type) {
+    let url;
+
+    switch (type) {
+        case "ai-tools":
+            url = "https://ai-tools.replit.app";
+            break;
+        case "bohr.io":
+            url = "https://bohr.io/";
+            break;
+        case "AutoResponderAI_ID":
+            url = "https://t.me/AutoResponderAI_ID";
+            break;
+        case "myquran":
+            url = "https://bit.ly/API-myQuran-v2";
+            break;
+        default:
+            return;
+    }
+
+    window.open(url, "_blank");
+}
+
+function visitDonate(type) {
+    let url;
+
+    switch (type) {
+        case "saweria":
+            url = "https://saweria.co/itsreimau";
+            break;
+        case "trakteer":
+            url = "https://trakteer.id/itsreimau";
+            break;
+        default:
+            return;
+    }
+
+    window.open(url, "_blank");
 }

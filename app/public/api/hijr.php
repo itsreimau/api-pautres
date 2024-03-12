@@ -14,10 +14,10 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getHijrResponse($adjustment = -1)
+function getHijrResponse($adjustment)
 {
     // URL API
-    $api_url = "https://api.myquran.com/v2/cal/hijr/?adj=" . $adjustment;
+    $api_url = "https://api.myquran.com/v2/cal/hijr?adj=" . $adjustment;
     $json_data = file_get_contents($api_url);
     $data = json_decode($json_data, true);
     return $data['data']['date'];
@@ -35,20 +35,20 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
+
+    /* It looks like this code will not be used
     if (isset($_SERVER["HTTP_COMMAND"])) {
         $command = $_SERVER["HTTP_COMMAND"];
         if (strpos($message, $command) === 0) {
             $message = trim(substr($message, strlen($command)));
-            $result = getHijrResponse(-1);
-            $response = implode("\n• ", $result);
             http_response_code(200);
-            echo json_encode(["replies" => [["message" => trim($response)]]]);
+            echo json_encode(["replies" => [["message" => $message]]]);
             exit();
         }
-    }
+    } */
 
-    $result = getHijrResponse(-1);
-    $response = implode("\n• ", $result);
+    $result = getHijrResponse(-2);
+    $response = implode("• " . $result . "\n");
     http_response_code(200);
     echo json_encode(["replies" => [["message" => trim($response)]]]);
 } else {

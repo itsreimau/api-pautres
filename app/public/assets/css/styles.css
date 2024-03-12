@@ -23,6 +23,10 @@ label {
     margin-top: 20px;
 }
 
+ol {
+    text-align: left;
+}
+
 footer {
     background-color: #333;
     color: #fff;
