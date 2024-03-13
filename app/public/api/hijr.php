@@ -14,9 +14,9 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
+// Function
 function getHijrResponse($adjustment)
 {
-    // URL API
     $api_url = "https://api.myquran.com/v2/cal/hijr?adj=" . $adjustment;
     $json_data = file_get_contents($api_url);
     $data = json_decode($json_data, true);
@@ -48,9 +48,9 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     } */
 
     $result = getHijrResponse(-2);
-    $response = implode("• " . $result . "\n");
+    $response = "• " . $result[0] . "\n• " . $result[1] . "\n• " . $result[2];
     http_response_code(200);
-    echo json_encode(["replies" => [["message" => trim($response)]]]);
+    echo json_encode(["replies" => [["message" => $response]]]);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);

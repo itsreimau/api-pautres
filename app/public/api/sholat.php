@@ -64,7 +64,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
                 $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
                 $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
                 $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
-                $response .= "• Isya: " . $result["isya"] . "\n";
+                $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
             } else {
                 $response = $result;
             }
@@ -77,14 +77,14 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $result = getSholatResponse($message);
     if (is_array($result)) {
         $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
-        $response .= "• Imsak: " . $result["imsak"] . "\n";
-        $response .= "• Subuh: " . $result["subuh"] . "\n";
-        $response .= "• Terbit: " . $result["terbit"] . "\n";
-        $response .= "• Dhuha: " . $result["dhuha"] . "\n";
-        $response .= "• Dzuhur: " . $result["dzuhur"] . "\n";
-        $response .= "• Ashar: " . $result["ashar"] . "\n";
-        $response .= "• Maghrib: " . $result["maghrib"] . "\n";
-        $response .= "• Isya: " . $result["isya"] . "\n";
+        $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
+        $response .= "• Subuh: " . $result["jadwal"]["subuh"] . "\n";
+        $response .= "• Terbit: " . $result["jadwal"]["terbit"] . "\n";
+        $response .= "• Dhuha: " . $result["jadwal"]["dhuha"] . "\n";
+        $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
+        $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
+        $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
+        $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
     } else {
         $response = $result;
     }
