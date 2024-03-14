@@ -61,15 +61,14 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         $commandPattern = $_SERVER["HTTP_COMMAND"];
         if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
             $argument = trim($matches[1]);
-
-            // Headers
             $language = $_SERVER["HTTP_LANGUAGE"];
             $apiKey = $_SERVER["HTTP_APIKEY"];
-
             $response = getSimsimiResponse($argument, $language, $apiKey);
             $replies = ["replies" => [["message" => $response]]];
         }
     } else {
+        $language = $_SERVER["HTTP_LANGUAGE"];
+        $apiKey = $_SERVER["HTTP_APIKEY"];
         $response = getSimsimiResponse($message, $language, $apiKey);
         $replies = ["replies" => [["message" => $response]]];
     }
