@@ -8,11 +8,11 @@ function displayApiInfo() {
     switch (selectedOption) {
         // Islamic
         case "hijr":
-            apiInfoDiv.innerHTML = "<p>API to get the current Hijri date.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get the current Hijri date.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "sholat":
-            apiInfoDiv.innerHTML = "<p>API to get prayer schedules now.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get prayer schedules now.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
             apiLinkBtn.disabled = false;
             break;
 
@@ -44,13 +44,13 @@ function displayApiInfo() {
 
         // Tools
         case "chatgpt":
-            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
             apiLinkBtn.disabled = false;
             break;
         case "simsimi":
             apiInfoDiv.innerHTML =
                 "<p>API to get a response from Simsimi.</p>" +
-                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command.<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
+                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
             apiLinkBtn.disabled = false;
             break;
         default:

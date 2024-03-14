@@ -35,22 +35,11 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
+    $response = getHijrResponse(-2);
+    $replies = ["replies" => [["message" => "• " . $response[0] . "\n• " . $response[1] . "\n• " . $response[2]]]];
 
-    /* It looks like this code will not be used
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $command = $_SERVER["HTTP_COMMAND"];
-        if (strpos($message, $command) === 0) {
-            $message = trim(substr($message, strlen($command)));
-            http_response_code(200);
-            echo json_encode(["replies" => [["message" => $message]]]);
-            exit();
-        }
-    } */
-
-    $result = getHijrResponse(-2);
-    $response = "• " . $result[0] . "\n• " . $result[1] . "\n• " . $result[2];
     http_response_code(200);
-    echo json_encode(["replies" => [["message" => $response]]]);
+    echo json_encode($replies);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);

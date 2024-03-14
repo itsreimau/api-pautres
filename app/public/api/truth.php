@@ -32,18 +32,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-
-    /* It looks like this code will not be used
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $command = $_SERVER["HTTP_COMMAND"];
-        if (strpos($message, $command) === 0) {
-            $message = trim(substr($message, strlen($command)));
-            http_response_code(200);
-            echo json_encode(["replies" => [["message" => $message]]]);
-            exit();
-        }
-    } */
-
     $truth = [
         "Acara tv apa yang paling memuakkan? Berikan alasannya!",
         "Apa baju yang (menurutmu) paling jelek yang pernah kamu pakai, dan kapan kamu memakainya?",

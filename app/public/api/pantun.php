@@ -32,18 +32,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-
-    /* It looks like this code will not be used
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $command = $_SERVER["HTTP_COMMAND"];
-        if (strpos($message, $command) === 0) {
-            $message = trim(substr($message, strlen($command)));
-            http_response_code(200);
-            echo json_encode(["replies" => [["message" => $message]]]);
-            exit();
-        }
-    } */
-
     $pantun = [
         "Ada anak kecil bermain batu,\nBatu dilempar masuk ke sumur,\nBelajar itu tak kenal waktu,\nJuga tidak memandang umur.",
         "Tanam kacang di pagi hari,\nTumbuh enam layu sebatang,\nKeburukan orang jangan dicari,\nBila kalian sedang puasa.",

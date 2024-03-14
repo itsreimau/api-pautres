@@ -51,10 +51,10 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     // Process messages here
     if (isset($_SERVER["HTTP_COMMAND"])) {
-        $command = $_SERVER["HTTP_COMMAND"];
-        if (strpos($message, $command) === 0) {
-            $message = trim(substr($message, strlen($command)));
-            $result = getSholatResponse($message);
+        $commandPattern = $_SERVER["HTTP_COMMAND"];
+        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
+            $argument = trim($matches[1]);
+            $result = getSholatResponse($argument);
             if (is_array($result)) {
                 $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
                 $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
@@ -68,26 +68,28 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             } else {
                 $response = $result;
             }
-            http_response_code(200);
-            echo json_encode(["replies" => [["message" => $response]]]);
-            exit();
+
+            $replies = ["replies" => [["message" => $response]]];
         }
+    } else {
+        $result = getSholatResponse($message);
+        if (is_array($result)) {
+            $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
+            $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
+            $response .= "• Subuh: " . $result["jadwal"]["subuh"] . "\n";
+            $response .= "• Terbit: " . $result["jadwal"]["terbit"] . "\n";
+            $response .= "• Dhuha: " . $result["jadwal"]["dhuha"] . "\n";
+            $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
+            $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
+            $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
+            $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
+        } else {
+            $response = $result;
+        }
+        $response = getSimsimiResponse($message, $language, $apiKey);
+        $replies = ["replies" => [["message" => $response]]];
     }
 
-    $result = getSholatResponse($message);
-    if (is_array($result)) {
-        $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
-        $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
-        $response .= "• Subuh: " . $result["jadwal"]["subuh"] . "\n";
-        $response .= "• Terbit: " . $result["jadwal"]["terbit"] . "\n";
-        $response .= "• Dhuha: " . $result["jadwal"]["dhuha"] . "\n";
-        $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
-        $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
-        $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
-        $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
-    } else {
-        $response = $result;
-    }
     http_response_code(200);
     echo json_encode(["replies" => [["message" => $response]]]);
 } else {

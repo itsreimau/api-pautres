@@ -29,14 +29,14 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         $commandPattern = $_SERVER["HTTP_COMMAND"];
         if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
             $argument = trim($matches[1]);
-            $response = ["replies" => [["message" => "Pong!"], ["message" => $argument]]];
+            $replies = ["replies" => [["message" => "Pong!"], ["message" => $argument]]];
         }
     } else {
-        $response = ["replies" => [["message" => "Pong!"], ["message" => $message]]];
+        $replies = ["replies" => [["message" => "Pong!"], ["message" => $message]]];
     }
 
     http_response_code(200);
-    echo json_encode($response);
+    echo json_encode($replies);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
