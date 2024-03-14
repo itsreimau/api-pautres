@@ -59,18 +59,35 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     // Process messages here
     if (isset($_SERVER["HTTP_COMMAND"])) {
         $commandPattern = $_SERVER["HTTP_COMMAND"];
-        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
-            $argument = trim($matches[1]);
-            $language = $_SERVER["HTTP_LANGUAGE"];
-            $apiKey = $_SERVER["HTTP_APIKEY"];
-            $response = getSimsimiResponse($argument, $language, $apiKey);
-            $replies = ["replies" => [["message" => $response]]];
+        if (!empty($commandPattern)) {
+            if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
+                $argument = trim($matches[1]);
+                $language = $_SERVER["HTTP_LANGUAGE"];
+                $apiKey = $_SERVER["HTTP_APIKEY"];
+                $response = getSimsimiResponse($argument, $language, $apiKey);
+                if ($response !== null) {
+                    $replies = ["replies" => [["message" => $response]]];
+                } else {
+                    $replies = ["replies" => [["message" => "❌ Error in SimSimi response."]]];
+                }
+            } else {
+                // Handle case where message doesn't match the command pattern
+                $replies = ["replies" => [["message" => "❌ Command pattern doesn't match the message."]]];
+            }
+        } else {
+            // Handle case where command pattern is empty
+            $replies = ["replies" => [["message" => "❌ Command pattern is empty."]]];
         }
     } else {
+        // Handle case where HTTP_COMMAND is not set
         $language = $_SERVER["HTTP_LANGUAGE"];
         $apiKey = $_SERVER["HTTP_APIKEY"];
         $response = getSimsimiResponse($message, $language, $apiKey);
-        $replies = ["replies" => [["message" => $response]]];
+        if ($response !== null) {
+            $replies = ["replies" => [["message" => $response]]];
+        } else {
+            $replies = ["replies" => [["message" => "❌ Error in SimSimi response."]]];
+        }
     }
 
     http_response_code(200);
