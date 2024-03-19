@@ -20,7 +20,7 @@ function getSimSimiResponse($chat, $lang)
     $response = @file_get_contents($url);
 
     if ($response !== false) {
-        return $response;
+        return $response[answer];
     } else {
         return null;
     }
