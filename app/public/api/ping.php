@@ -29,6 +29,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         $commandPattern = $_SERVER["HTTP_COMMAND"];
         if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
             $argument = trim($matches[1]);
+
             $replies = ["replies" => [["message" => "Pong!"], ["message" => $argument]]];
         }
     } else {
