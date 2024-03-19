@@ -41,6 +41,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
+    $url = "https://officepower.click/api/chatbot/ayb1B0GDPR/rdqLk5QWAE";
     $result = postDataToAPI($url);
 
     if ($result) {
