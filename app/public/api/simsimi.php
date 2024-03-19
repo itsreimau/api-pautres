@@ -39,7 +39,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     // Process messages here
     if (isset($_SERVER["HTTP_COMMAND"])) {
-        // Handle case where HTTP_COMMAND is set
         $commandPattern = $_SERVER["HTTP_COMMAND"];
         if (!empty($commandPattern)) {
             if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
@@ -53,10 +52,9 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             }
         }
     } else {
-        // Handle case where HTTP_COMMAND is not set
         $language = $_SERVER["HTTP_LANGUAGE"];
         $response = getSimSimiResponse($chat, $language);
-        
+
         if ($response !== null) {
             $replies = ["replies" => [["message" => $response]]];
         }
