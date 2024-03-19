@@ -14,35 +14,16 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getSimsimiResponse($message, $language, $apiKey = "")
+function getSimSimiResponse($chat, $lang)
 {
-    $apiUrl = "https://api.simsimi.vn/v1/simtalk";
+    $url = "https://sandipbaruwal.onrender.com/sim?chat=" . urlencode($chat) . "&lang=" . urlencode($lang);
+    $response = @file_get_contents($url);
 
-    $postData = [
-        "text" => $message,
-        "lc" => $language,
-        "key" => $apiKey,
-    ];
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $apiUrl);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/x-www-form-urlencoded"]);
-
-    $response = curl_exec($ch);
-
-    if (curl_errno($ch)) {
+    if ($response !== false) {
+        return $response;
+    } else {
         return null;
     }
-
-    curl_close($ch);
-
-    $result = json_decode($response, true);
-
-    return isset($result["message"]) ? $result["message"] : null;
 }
 
 // Make sure JSON data is not incomplete
@@ -58,40 +39,31 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     // Process messages here
     if (isset($_SERVER["HTTP_COMMAND"])) {
+        // Handle case where HTTP_COMMAND is set
         $commandPattern = $_SERVER["HTTP_COMMAND"];
         if (!empty($commandPattern)) {
             if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
                 $argument = trim($matches[1]);
                 $language = $_SERVER["HTTP_LANGUAGE"];
-                $apiKey = $_SERVER["HTTP_APIKEY"];
-                $response = getSimsimiResponse($argument, $language, $apiKey);
+                $response = getSimSimiResponse($chat, $language);
+
                 if ($response !== null) {
                     $replies = ["replies" => [["message" => $response]]];
-                } else {
-                    $replies = ["replies" => [["message" => "❌ Error in SimSimi response."]]];
                 }
-            } else {
-                // Handle case where message doesn't match the command pattern
-                $replies = ["replies" => [["message" => "❌ Command pattern doesn't match the message."]]];
             }
-        } else {
-            // Handle case where command pattern is empty
-            $replies = ["replies" => [["message" => "❌ Command pattern is empty."]]];
         }
     } else {
         // Handle case where HTTP_COMMAND is not set
         $language = $_SERVER["HTTP_LANGUAGE"];
-        $apiKey = $_SERVER["HTTP_APIKEY"];
-        $response = getSimsimiResponse($message, $language, $apiKey);
+        $response = getSimSimiResponse($chat, $language);
+        
         if ($response !== null) {
             $replies = ["replies" => [["message" => $response]]];
-        } else {
-            $replies = ["replies" => [["message" => "❌ Error in SimSimi response."]]];
         }
     }
 
     http_response_code(200);
-    echo json_encode($replies);
+    echo json_encode($replies ?? ["replies" => [["message" => "Tidak ada respons dari SimSimi."]]]);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
