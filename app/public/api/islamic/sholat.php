@@ -1,7 +1,7 @@
 <?php
 
 // Don't disturb
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
 // Required headers
 header("Access-Control-Allow-Origin: *");

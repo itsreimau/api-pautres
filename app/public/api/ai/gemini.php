@@ -1,7 +1,7 @@
 <?php
 
 // Don't disturb
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
 // Required headers
 header("Access-Control-Allow-Origin: *");
@@ -14,13 +14,11 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-// Function
-function getHijrResponse($adjustment)
+function getGeminiResponse($prompt)
 {
-    $api_url = "https://api.myquran.com/v2/cal/hijr?adj=" . $adjustment;
-    $json_data = file_get_contents($api_url);
-    $data = json_decode($json_data, true);
-    return $data['data']['date'];
+    $api_url = "https://sandipbaruwal.onrender.com/gemini?prompt=" . urlencode($prompt);
+    $response = @file_get_contents($api_url);
+    return $response ? json_decode($response, true)["answer"] : null;
 }
 
 // Make sure JSON data is not incomplete
@@ -35,8 +33,17 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-    $response = getHijrResponse(-2);
-    $replies = ["replies" => [["message" => "• " . $response[0] . "\n• " . $response[1] . "\n• " . $response[2]]]];
+    if (isset($_SERVER["HTTP_COMMAND"])) {
+        $commandPattern = $_SERVER["HTTP_COMMAND"];
+        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
+            $argument = trim($matches[1]);
+            $response = getGeminiResponse($argument);
+            $replies = ["replies" => [["message" => $response]]];
+        }
+    } else {
+        $response = getGeminiResponse($message);
+        $replies = ["replies" => [["message" => $response]]];
+    }
 
     http_response_code(200);
     echo json_encode($replies);

@@ -1,7 +1,7 @@
 <?php
 
 // Don't disturb
-require __DIR__ . "/../../vendor/autoload.php";
+require __DIR__ . "/../../../vendor/autoload.php";
 
 // Required headers
 header("Access-Control-Allow-Origin: *");
@@ -14,11 +14,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getSimsimiResponse($message, $language)
+// Function
+function getHijrResponse($adjustment)
 {
-    $api_url = "https://sandipbaruwal.onrender.com/sim?chat=" . urlencode($message) . "&lang=" . urlencode($language);
-    $response = @file_get_contents($api_url);
-    return $response ? json_decode($response, true)["answer"] : null;
+    $api_url = "https://api.myquran.com/v2/cal/hijr?adj=" . $adjustment;
+    $json_data = file_get_contents($api_url);
+    $data = json_decode($json_data, true);
+    return $data['data']['date'];
 }
 
 // Make sure JSON data is not incomplete
@@ -33,19 +35,8 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $commandPattern = $_SERVER["HTTP_COMMAND"];
-        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
-            $argument = trim($matches[1]);
-            $language = $_SERVER["HTTP_LANGUAGE"];
-            $response = getSimsimiResponse($argument, $language);
-            $replies = ["replies" => [["message" => $response]]];
-        }
-    } else {
-        $language = $_SERVER["HTTP_LANGUAGE"];
-        $response = getSimsimiResponse($message, $language);
-        $replies = ["replies" => [["message" => $response]]];
-    }
+    $response = getHijrResponse(-2);
+    $replies = ["replies" => [["message" => "• " . $response[0] . "\n• " . $response[1] . "\n• " . $response[2]]]];
 
     http_response_code(200);
     echo json_encode($replies);

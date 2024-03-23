@@ -15,6 +15,13 @@
                 <label for="apiSelect">Choose an API:</label>
                 <select id="apiSelect" onchange="displayApiInfo()">
                     <option value="" disabled selected hidden>Click here</option>
+                    <optgroup label="AI">
+                        <option value="chatgpt">ChatGPT</option>
+                        <option value="gemini">Gemini</option>
+                    </optgroup>
+                    <optgroup label="Fun">
+                        <option value="simsimi">Simsimi</option>
+                    </optgroup>
                     <optgroup label="Islamic">
                         <option value="hijr">Hijr</option>
                         <option value="sholat">Sholat</option>
@@ -26,10 +33,6 @@
                         <option value="pantun">Pantun</option>
                         <option value="quotes">Quotes</option>
                         <option value="truth">Truth</option>
-                    </optgroup>
-                    <optgroup label="Tools">
-                        <option value="chatgpt">ChatGPT</option>
-                        <option value="simsimi">Simsimi</option>
                     </optgroup>
                 </select>
 
@@ -66,6 +69,7 @@
             <button id="apiLinkBtn" onclick="visitCredits('bohr.io')">Bohr IO</button>
             <button id="apiLinkBtn" onclick="visitCredits('AutoResponderAI_ID')">Komunitas AutoResponder.ai ID</button>
             <button id="apiLinkBtn" onclick="visitCredits('myquran')">API Muslim v2 - by myQuran</button>
+            <button id="apiLinkBtn" onclick="visitCredits('sandipbaruwal')">OtinXSandip API</button>
         </div>
 
         <div class="container">

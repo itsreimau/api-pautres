@@ -6,6 +6,24 @@ function displayApiInfo() {
     apiInfoDiv.innerHTML = "";
 
     switch (selectedOption) {
+        // AI
+        case "chatgpt":
+            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiLinkBtn.disabled = false;
+            break;
+        case "gemini":
+            apiInfoDiv.innerHTML = "<p>API to get responses from Gemini for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiLinkBtn.disabled = false;
+            break;
+
+        // Fun
+        case "simsimi":
+            apiInfoDiv.innerHTML =
+                "<p>API to get a response from Simsimi.</p>" +
+                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
+            apiLinkBtn.disabled = false;
+            break;
+
         // Islamic
         case "hijr":
             apiInfoDiv.innerHTML = "<p>API to get the current Hijri date.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
@@ -42,17 +60,7 @@ function displayApiInfo() {
             apiLinkBtn.disabled = false;
             break;
 
-        // Tools
-        case "chatgpt":
-            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
-            apiLinkBtn.disabled = false;
-            break;
-        case "simsimi":
-            apiInfoDiv.innerHTML =
-                "<p>API to get a response from Simsimi.</p>" +
-                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
-            apiLinkBtn.disabled = false;
-            break;
+        // Default
         default:
             apiInfoDiv.innerHTML = "<p>Select an API to see more information.</p>";
             apiLinkBtn.disabled = true;
@@ -65,41 +73,48 @@ function visitApi() {
     var selectedOption = select.options[select.selectedIndex].value;
 
     switch (selectedOption) {
+        // AI
+        case "chatgpt":
+            window.open("api/ai/chatgpt.php", "_blank");
+            break;
+        case "gemini":
+            window.open("api/ai/gemini.php", "_blank");
+            break;
+
+        // Fun
+        case "simsimi":
+            window.open("api/fun/simsimi.php", "_blank");
+            break;
+
         // Islamic
         case "hijr":
-            window.open("api/hijr.php", "_blank");
+            window.open("api/islamic/hijr.php", "_blank");
             break;
         case "sholat":
-            window.open("api/sholat.php", "_blank");
+            window.open("api/islamic/sholat.php", "_blank");
             break;
 
         // Random Text
         case "bucin":
-            window.open("api/bucin.php", "_blank");
+            window.open("api/random-text/bucin.php", "_blank");
             break;
         case "dare":
-            window.open("api/dare.php", "_blank");
+            window.open("api/random-text/dare.php", "_blank");
             break;
         case "hacker":
-            window.open("api/hacker.php", "_blank");
+            window.open("api/random-text/hacker.php", "_blank");
             break;
         case "pantun":
-            window.open("api/pantun.php", "_blank");
+            window.open("api/random-text/pantun.php", "_blank");
             break;
         case "quotes":
-            window.open("api/quotes.php", "_blank");
+            window.open("api/random-text/quotes.php", "_blank");
             break;
         case "truth":
-            window.open("api/truth.php", "_blank");
+            window.open("api/random-text/truth.php", "_blank");
             break;
 
-        // Tools
-        case "chatgpt":
-            window.open("api/chatgpt.php", "_blank");
-            break;
-        case "simsimi":
-            window.open("api/simsimi.php", "_blank");
-            break;
+        // Default
         default:
             break;
     }
@@ -109,18 +124,23 @@ function visitCredits(type) {
     let url;
 
     switch (type) {
-        case "ai-tools":
+        case "ai-tools": // AI Tools
             url = "https://ai-tools.replit.app";
             break;
-        case "bohr.io":
+        case "bohr.io": // Bohr IO
             url = "https://bohr.io/";
             break;
-        case "AutoResponderAI_ID":
+        case "AutoResponderAI_ID": // Komunitas AutoResponder.ai ID
             url = "https://t.me/AutoResponderAI_ID";
             break;
         case "myquran":
-            url = "https://bit.ly/API-myQuran-v2";
+            url = "https://bit.ly/API-myQuran-v2"; // API Muslim v2 - by myQuran
             break;
+        case "sandipbaruwal": // OtinXSandip API
+            url = "https://sandipbaruwal.onrender.com/";
+            break;
+
+        // Default
         default:
             return;
     }
@@ -138,6 +158,8 @@ function visitDonate(type) {
         case "trakteer":
             url = "https://trakteer.id/itsreimau";
             break;
+
+        // Default
         default:
             return;
     }
