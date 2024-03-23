@@ -35,25 +35,22 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     // Process messages here
     if (isset($_SERVER["HTTP_COMMAND"])) {
         $commandPattern = $_SERVER["HTTP_COMMAND"];
-        if (!empty($commandPattern)) {
-            if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
-                $argument = trim($matches[1]);
-                $language = $_SERVER["HTTP_LANGUAGE"];
-                $response = getSimsimiResponse($argument, $language);
-                $replies = ["replies" => [["message" => $response]]];
-            }
-        } else {
-            // Handle case where HTTP_COMMAND is not set
+        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
+            $argument = trim($matches[1]);
             $language = $_SERVER["HTTP_LANGUAGE"];
-            $response = getSimsimiResponse($message, $language);
+            $response = getSimsimiResponse($argument, $language);
             $replies = ["replies" => [["message" => $response]]];
         }
-
-        http_response_code(200);
-        echo json_encode($replies);
     } else {
-        http_response_code(400);
-        echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
+        $language = $_SERVER["HTTP_LANGUAGE"];
+        $response = getSimsimiResponse($message, $language);
+        $replies = ["replies" => [["message" => $response]]];
     }
+
+    http_response_code(200);
+    echo json_encode($replies);
+} else {
+    http_response_code(400);
+    echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
 }
 ?>
