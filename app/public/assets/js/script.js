@@ -15,6 +15,14 @@ function displayApiInfo() {
             apiInfoDiv.innerHTML = "<p>API to get responses from Gemini for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
             apiLinkBtn.disabled = false;
             break;
+        case "metallama":
+            apiInfoDiv.innerHTML = "<p>API to get responses from Meta Llama for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiLinkBtn.disabled = false;
+            break;
+        case "mistral":
+            apiInfoDiv.innerHTML = "<p>API to get responses from Mistral for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiLinkBtn.disabled = false;
+            break;
 
         // Fun
         case "simsimi":
@@ -79,6 +87,12 @@ function visitApi() {
             break;
         case "gemini":
             window.open("api/ai/gemini.php", "_blank");
+            break;
+        case "metallama":
+            window.open("api/ai/metallama.php", "_blank");
+            break;
+        case "mistral":
+            window.open("api/ai/mistral.php", "_blank");
             break;
 
         // Fun
