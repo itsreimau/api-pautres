@@ -16,9 +16,9 @@ $data = json_decode(file_get_contents("php://input"));
 // Function
 function getChatGPTResponse($query, $uid)
 {
-    $api_url = "https://ai-tools.replit.app/gpt?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
+    $api_url = "https://sandipbaruwal.onrender.com/gemini?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
     $response = @file_get_contents($api_url);
-    return $response ? json_decode($response, true)["gpt4"] : null;
+    return $response ? $response : null;
 }
 
 // Make sure JSON data is not incomplete
