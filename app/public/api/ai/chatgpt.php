@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input"));
 // Function
 function getChatGPTResponse($query, $uid)
 {
-    $api_url = "https://sandipbaruwal.onrender.com/gemini?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
+    $api_url = "https://sandipbaruwal.onrender.com/gpt2?prompt=" . urlencode($query) . "&uid=" . urlencode($uid);
     $response = @file_get_contents($api_url);
     return $response ? $response : null;
 }
