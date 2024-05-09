@@ -25,12 +25,14 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $commandPattern = $_SERVER["HTTP_COMMAND"];
-        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
-            $argument = trim($matches[1]);
-
-            $replies = ["replies" => [["message" => "Pong!"], ["message" => $argument]]];
+    if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
+        if (isset($_SERVER["HTTP_REGEX"])) {
+            $regexPattern = $_SERVER["HTTP_REGEX"];
+            if (preg_match('/' . $regexPattern . '/', $message, $matches)) {
+                $capturingGroup1 = isset($_SERVER["HTTP_CPTGRP1"]) ? $_SERVER["HTTP_CPTGRP1"] : 1;
+                $argument1 = isset($matches[$capturingGroup1]) ? trim($matches[$capturingGroup1]) : '';
+                $replies = ["replies" => [["message" => "Pong!"], ["message" => $argument1]]];
+            }
         }
     } else {
         $replies = ["replies" => [["message" => "Pong!"], ["message" => $message]]];

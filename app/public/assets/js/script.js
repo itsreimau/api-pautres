@@ -8,19 +8,27 @@ function displayApiInfo() {
     switch (selectedOption) {
         // AI
         case "chatgpt":
-            apiInfoDiv.innerHTML = "<p>API to get responses from ChatGPT for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiInfoDiv.innerHTML =
+                "<p>API to get responses from ChatGPT for free.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "gemini":
-            apiInfoDiv.innerHTML = "<p>API to get responses from Gemini for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiInfoDiv.innerHTML =
+                "<p>API to get responses from Gemini for free.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "metallama":
-            apiInfoDiv.innerHTML = "<p>API to get responses from Meta Llama for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiInfoDiv.innerHTML =
+                "<p>API to get responses from Meta Llama for free.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "mistral":
-            apiInfoDiv.innerHTML = "<p>API to get responses from Mistral for free.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiInfoDiv.innerHTML =
+                "<p>API to get responses from Mistral for free.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
@@ -28,7 +36,7 @@ function displayApiInfo() {
         case "simsimi":
             apiInfoDiv.innerHTML =
                 "<p>API to get a response from Simsimi.</p>" +
-                "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</p>";
+                "<p><strong>Headers:</strong><br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</br>EXPERIMENTAL - Optional, for experimental use. Enter \"true\" to use it.</p>";
             apiLinkBtn.disabled = false;
             break;
 
@@ -38,7 +46,9 @@ function displayApiInfo() {
             apiLinkBtn.disabled = false;
             break;
         case "sholat":
-            apiInfoDiv.innerHTML = "<p>API to get prayer schedules now.</p>" + "<p><strong>Headers:</strong><br>COMMAND - Optional, use if you want the API to be called on command. (RegEx)</p>";
+            apiInfoDiv.innerHTML =
+                "<p>API to get prayer schedules now.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
@@ -138,11 +148,11 @@ function visitCredits(type) {
     let url;
 
     switch (type) {
-        case "ai-tools": // AI Tools
-            url = "https://ai-tools.replit.app";
-            break;
         case "bohr.io": // Bohr IO
             url = "https://bohr.io/";
+            break;
+        case "joshweb": // DEKU - REST API
+            url = "https://joshweb.click/";
             break;
         case "AutoResponderAI_ID": // Komunitas AutoResponder.ai ID
             url = "https://t.me/AutoResponderAI_ID";

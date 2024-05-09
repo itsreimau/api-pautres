@@ -16,15 +16,31 @@ $data = json_decode(file_get_contents("php://input"));
 // Function
 function getSholatResponse($kota)
 {
-    $cariKotaUrl = "https://api.myquran.com/v2/sholat/kota/cari/$kota";
+    $kota = preg_replace('/\b(?:kabupaten|kota)\b/i', '', $kota);
+    $kota = trim($kota);
+
+    $cariKotaUrl = "https://api.myquran.com/v2/sholat/kota/cari/" . urlencode($kota);
     $resultKota = file_get_contents($cariKotaUrl);
     $dataKota = json_decode($resultKota, true);
 
     if ($dataKota["status"] && !empty($dataKota["data"])) {
-        $kotaId = $dataKota["data"][0]["id"];
+        $selectedCity = null;
+
+        foreach ($dataKota["data"] as $kotaData) {
+            if (stripos($kotaData["lokasi"], "KOTA") !== false || stripos($kotaData["lokasi"], "KAB.") !== false) {
+                $selectedCity = $kotaData;
+                break;
+            }
+        }
+
+        if ($selectedCity === null) {
+            $selectedCity = $dataKota["data"][0];
+        }
+
+        $kotaId = $selectedCity["id"];
 
         $tanggal = date("Y/m/d");
-        $jadwalSholatUrl = "https://api.myquran.com/v2/sholat/jadwal/$kotaId/$tanggal";
+        $jadwalSholatUrl = "https://api.myquran.com/v2/sholat/jadwal/" . $kotaId . "/" . $tanggal;
         $resultJadwal = file_get_contents($jadwalSholatUrl);
         $dataJadwal = json_decode($resultJadwal, true);
 
@@ -50,26 +66,29 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-    if (isset($_SERVER["HTTP_COMMAND"])) {
-        $commandPattern = $_SERVER["HTTP_COMMAND"];
-        if (preg_match('/^' . $commandPattern . '\s*(.*)/', $message, $matches)) {
-            $argument = trim($matches[1]);
-            $result = getSholatResponse($argument);
-            if (is_array($result)) {
-                $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
-                $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
-                $response .= "• Subuh: " . $result["jadwal"]["subuh"] . "\n";
-                $response .= "• Terbit: " . $result["jadwal"]["terbit"] . "\n";
-                $response .= "• Dhuha: " . $result["jadwal"]["dhuha"] . "\n";
-                $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
-                $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
-                $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
-                $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
-            } else {
-                $response = $result;
-            }
+    if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
+        if (isset($_SERVER["HTTP_REGEX"])) {
+            $regexPattern = $_SERVER["HTTP_REGEX"];
+            if (preg_match('/' . $regexPattern . '/', $message, $matches)) {
+                $capturingGroup1 = isset($_SERVER["HTTP_CPTGRP1"]) ? $_SERVER["HTTP_CPTGRP1"] : 1;
+                $argument1 = isset($matches[$capturingGroup1]) ? trim($matches[$capturingGroup1]) : '';
+                $result = getSholatResponse($argument1);
+                if (is_array($result)) {
+                    $response = $result["lokasi"] . " - " . $result["daerah"] . "\n";
+                    $response .= "• Imsak: " . $result["jadwal"]["imsak"] . "\n";
+                    $response .= "• Subuh: " . $result["jadwal"]["subuh"] . "\n";
+                    $response .= "• Terbit: " . $result["jadwal"]["terbit"] . "\n";
+                    $response .= "• Dhuha: " . $result["jadwal"]["dhuha"] . "\n";
+                    $response .= "• Dzuhur: " . $result["jadwal"]["dzuhur"] . "\n";
+                    $response .= "• Ashar: " . $result["jadwal"]["ashar"] . "\n";
+                    $response .= "• Maghrib: " . $result["jadwal"]["maghrib"] . "\n";
+                    $response .= "• Isya: " . $result["jadwal"]["isya"] . "\n";
+                } else {
+                    $response = $result;
+                }
 
-            $replies = ["replies" => [["message" => $response]]];
+                $replies = ["replies" => [["message" => $response]]];
+            }
         }
     } else {
         $result = getSholatResponse($message);
