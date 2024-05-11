@@ -28,11 +28,15 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
+            $capturingGroup1 = isset($_SERVER["HTTP_CPTGRP1"]) ? $_SERVER["HTTP_CPTGRP1"] : 1;
             if (preg_match('/' . $regexPattern . '/', $message, $matches)) {
-                $capturingGroup1 = isset($_SERVER["HTTP_CPTGRP1"]) ? $_SERVER["HTTP_CPTGRP1"] : 1;
                 $argument1 = isset($matches[$capturingGroup1]) ? trim($matches[$capturingGroup1]) : '';
                 $replies = ["replies" => [["message" => "Pong!"], ["message" => $argument1]]];
+            } else {
+                $replies = ["replies" => [["message" => "Pong!"], ["message" => "Regex pattern tidak cocok dengan pesan."]]];
             }
+        } else {
+            $replies = ["replies" => [["message" => "Pong!"], ["message" => "Experimental mode is enabled, but no regex pattern provided."]]];
         }
     } else {
         $replies = ["replies" => [["message" => "Pong!"], ["message" => $message]]];
