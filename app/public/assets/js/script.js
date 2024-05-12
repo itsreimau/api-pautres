@@ -10,25 +10,25 @@ function displayApiInfo() {
         case "chatgpt":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from ChatGPT for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARGS1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "gemini":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Gemini for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARGS1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "metallama":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Meta Llama for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARGS1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "mistral":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Mistral for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARGS1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
@@ -48,7 +48,7 @@ function displayApiInfo() {
         case "sholat":
             apiInfoDiv.innerHTML =
                 "<p>API to get prayer schedules now.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>CPTGRP1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARGS1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
