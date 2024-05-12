@@ -37,7 +37,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
             if (preg_match($regexPattern, $message, $argument)) {
-                $capturingGroup1 = isset($_SERVER["HTTP_ARGS1"]) ? $_SERVER["HTTP_ARGS1"] : 1;
+                $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
                 $response = getSimsimiResponse($argument1);
                 $replies = ["replies" => [["message" => $response]]];
