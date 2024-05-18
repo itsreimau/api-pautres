@@ -14,11 +14,11 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getChatGPTResponse($query)
+function getBlackBoxResponse($query)
 {
-    $api_url = "https://akhiro-rest-api.onrender.com/api/gpt4?q=" . urlencode($query);
+    $api_url = "https://akhiro-rest-api.onrender.com/api/blackbox?q=" . urlencode($query);
     $response = @file_get_contents($api_url);
-    return $response ? json_decode($response, true)["content"] : null;
+    return $response ? json_decode($response, true)["data"] : null;
 }
 
 // Make sure JSON data is not incomplete
@@ -39,12 +39,12 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             if (preg_match($regexPattern, $message, $argument)) {
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $response = getChatGPTResponse($argument1);
+                $response = getBlackBoxResponse($argument1);
                 $replies = ["replies" => [["message" => $response]]];
             }
         }
     } else {
-        $response = getChatGPTResponse($message);
+        $response = getBlackBoxResponse($message);
         $replies = ["replies" => [["message" => $response]]];
     }
 

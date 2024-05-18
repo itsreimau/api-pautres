@@ -13,6 +13,12 @@ function displayApiInfo() {
                 '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
+        case "blackbox":
+            apiInfoDiv.innerHTML =
+                "<p>API to get responses from BlackBox for free.</p>" +
+                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+            apiLinkBtn.disabled = false;
+            break;
         case "gemini":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Gemini for free.</p>" +
@@ -95,6 +101,9 @@ function visitApi() {
         case "chatgpt":
             window.open("api/ai/chatgpt.php", "_blank");
             break;
+        case "blackbox":
+            window.open("api/ai/blackbox.php", "_blank");
+            break;
         case "gemini":
             window.open("api/ai/gemini.php", "_blank");
             break;
@@ -148,11 +157,11 @@ function visitCredits(type) {
     let url;
 
     switch (type) {
+        case "akhiro": // AkhiroGEN
+            url = "https://akhiro-rest-api.onrender.com/";
+            break;
         case "bohr.io": // Bohr IO
             url = "https://bohr.io/";
-            break;
-        case "joshweb": // DEKU - REST API
-            url = "https://joshweb.click/";
             break;
         case "AutoResponderAI_ID": // Komunitas AutoResponder.ai ID
             url = "https://t.me/AutoResponderAI_ID";
