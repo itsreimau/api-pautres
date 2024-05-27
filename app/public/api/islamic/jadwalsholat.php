@@ -1,6 +1,6 @@
 <?php
 
-// Don't disturb
+// Autoload dependencies
 require __DIR__ . "/../../../vendor/autoload.php";
 
 // Required headers
@@ -13,10 +13,10 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Function
-function getSholatResponse($message)
+// Function to get Sholat response from the API
+function getSholatResponse($query)
 {
-    $api_url = "https://api-gabut.bohr.io/api/jadwalsholat?query=" . urlencode($message);
+    $api_url = "https://api-gabut.bohr.io/api/jadwalsholat?query=" . urlencode($query);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
@@ -29,13 +29,13 @@ function getSholatResponse($message)
 
     if ($http_code == 200 && $response) {
         $data = json_decode($response, true);
-        return isset($data["result"]) ? $data["result"] : null;
+        return $data['result'] ?? null;
     }
 
     return null;
 }
 
-// Make sure JSON data is not incomplete
+// Ensure JSON data is complete
 if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messengerPackageName) && !empty($data->query->sender) && !empty($data->query->message)) {
     $appPackageName = $data->appPackageName;
     $messengerPackageName = $data->messengerPackageName;
@@ -46,7 +46,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $ruleId = $data->query->ruleId;
     $isTestMessage = $data->query->isTestMessage;
 
-    // Process messages here
+    // Default message template
     $defaultMessage = "➲ %region%\n";
     $defaultMessage .= "➲ Shubuh: %shubuh%\n";
     $defaultMessage .= "➲ Dzuhur: %dzuhur%\n";
@@ -54,42 +54,56 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $defaultMessage .= "➲ Maghrib: %maghrib%\n";
     $defaultMessage .= "➲ Isya: %isya%";
 
-    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+    $messageReplies = $_SERVER["HTTP_MESSAGE_REPLIES"] ?? $defaultMessage;
 
-    $variable = ['%region%', '%shubuh%', '%dzuhur%', '%ashr%', '%maghrib%', '%isya%'];
-    $replace = [$result['region'], $result['schedule']['today']['Shubuh'], $result['schedule']['today']['Dzuhur'], $result['schedule']['today']['Ashr'], $result['schedule']['today']['Maghrib'], $result['schedule']['today']['Isya']];
+    // Initialize response
+    $response = "❌ Unable to fetch Sholat schedule. Please try again.";
 
+    // Check for experimental features
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
             if (preg_match($regexPattern, $message, $argument)) {
-                $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
-                $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $result = getSholatResponse($argument1);
-                if (is_array($result)) {
-                    $response = str_replace($variable, $replace, $messageReplies);
-                } else {
-                    $response = $result;
-                }
+                $capturingGroup1 = $_SERVER["HTTP_ARG1"] ?? 1;
+                $argument1 = trim($argument[$capturingGroup1] ?? '');
 
-                $replies = ["replies" => [["message" => $response]]];
+                if ($argument1) {
+                    $result = getSholatResponse($argument1);
+                    if (is_array($result)) {
+                        $variable = ['%region%', '%shubuh%', '%dzuhur%', '%ashr%', '%maghrib%', '%isya%'];
+                        $replace = [
+                            $result['region'],
+                            $result['schedule']['today']['Shubuh'],
+                            $result['schedule']['today']['Dzuhur'],
+                            $result['schedule']['today']['Ashr'],
+                            $result['schedule']['today']['Maghrib'],
+                            $result['schedule']['today']['Isya'],
+                        ];
+                        $response = str_replace($variable, $replace, $messageReplies);
+                    }
+                }
             }
         }
     } else {
+        // Regular message processing
         $result = getSholatResponse($message);
         if (is_array($result)) {
+            $variable = ['%region%', '%shubuh%', '%dzuhur%', '%ashr%', '%maghrib%', '%isya%'];
+            $replace = [$result['region'], $result['schedule']['today']['Shubuh'], $result['schedule']['today']['Dzuhur'], $result['schedule']['today']['Ashr'], $result['schedule']['today']['Maghrib'], $result['schedule']['today']['Isya']];
             $response = str_replace($variable, $replace, $messageReplies);
-        } else {
-            $response = $result;
         }
-
-        $replies = ["replies" => [["message" => $response]]];
     }
 
+    // Prepare and send response
+    $replies = ["replies" => [["message" => $response]]];
     http_response_code(200);
     echo json_encode($replies);
 } else {
+    // Incomplete JSON data
     http_response_code(400);
-    echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
+    $errorResponse = [
+        "replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]],
+    ];
+    echo json_encode($errorResponse);
 }
 ?>
