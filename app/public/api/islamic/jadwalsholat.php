@@ -54,7 +54,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $defaultMessage .= "➲ Maghrib: %maghrib%\n";
     $defaultMessage .= "➲ Isya: %isya%";
 
-    $messageReplies = $_SERVER["HTTP_MESSAGE_REPLIES"] ?? $defaultMessage;
+    $messageReplies = $_SERVER["HTTP_REPLIES"] ?? $defaultMessage;
 
     // Initialize response
     $response = "❌ Unable to fetch Sholat schedule. Please try again.";
