@@ -13,12 +13,48 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Function
-function getChatGPTResponse($query)
+function getChatGPTResponse($query, $api_choice = null)
 {
-    $api_url = "https://akhiro-rest-api.onrender.com/api/gpt4?q=" . urlencode($query);
-    $response = @file_get_contents($api_url);
-    return $response ? json_decode($response, true)["content"] : null;
+    $urls = [
+        "akhiro" => "https://akhiro-rest-api.onrender.com/api/gpt4?q=" . urlencode($query),
+        "ngodingaja" => "https://api.ngodingaja.my.id/api/gpt?prompt=" . urlencode($query),
+        "nyx_gpt4" => "https://api.nyx.my.id/ai/gpt4?text=" . urlencode($query),
+        "nyx_gpt" => "https://api.nyx.my.id/ai/gpt?text=" . urlencode($query),
+        "nyx_turbo" => "https://api.nyx.my.id/ai/turbo?text=" . urlencode($query),
+    ];
+
+    if ($api_choice && isset($urls[$api_choice])) {
+        $urls = [$api_choice => $urls[$api_choice]];
+    }
+
+    foreach ($urls as $api_url) {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+
+        curl_close($ch);
+
+        if ($http_code == 200) {
+            $body = substr($response, $header_size);
+            $data = json_decode($body, true);
+
+            if (isset($data['content'])) {
+                return $data['content'];
+            } elseif (isset($data['result'])) {
+                return $data['result'];
+            } elseif (isset($data['hasil'])) {
+                return $data['hasil'];
+            }
+        }
+    }
+
+    return null;
 }
 
 // Make sure JSON data is not incomplete
@@ -33,18 +69,26 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
+    $defaultMessage = "%response%";
+
+    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+
+    $variable = ['%response%'];
+    $replace = [];
+
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
             if (preg_match($regexPattern, $message, $argument)) {
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
+                $apiChoice = $_SERVER["HTTP_API_CHOICE"];
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $response = getChatGPTResponse($argument1);
+                $response = str_replace($variable, [getChatGPTResponse($argument1, $apiChoice)], $messageReplies);
                 $replies = ["replies" => [["message" => $response]]];
             }
         }
     } else {
-        $response = getChatGPTResponse($message);
+        $response = str_replace($variable, [getChatGPTResponse($message, $apiChoice)], $messageReplies);
         $replies = ["replies" => [["message" => $response]]];
     }
 

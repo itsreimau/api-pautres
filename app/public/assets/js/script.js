@@ -10,31 +10,31 @@ function displayApiInfo() {
         case "chatgpt":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from ChatGPT for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>API_CHOICE - Optional, to get a ChatGPT response from the selected API type. Available types: Akhiro, ngodingaja, nyx_gpt4, nyx_gpt, and nyx_turbo.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "blackbox":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from BlackBox for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "gemini":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Gemini for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "metallama":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Meta Llama for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
         case "mistral":
             apiInfoDiv.innerHTML =
                 "<p>API to get responses from Mistral for free.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
@@ -42,45 +42,41 @@ function displayApiInfo() {
         case "simsimi":
             apiInfoDiv.innerHTML =
                 "<p>API to get a response from Simsimi.</p>" +
-                "<p><strong>Headers:</strong><br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</br>EXPERIMENTAL - Optional, for experimental use. Enter \"true\" to use it.</p>";
+                "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %response%.<br>LANGUAGE - Must, available languages: vi, en, ph, zh, ch, ru, id, ko, ar, fr, jp, de, etc.<br>APIKEY - Optional, if you have the Simsimi API key, you can use it, if you don't have it, it's okay, everything will work normally.</br>EXPERIMENTAL - Optional, for experimental use. Enter \"true\" to use it.</p>";
             apiLinkBtn.disabled = false;
             break;
 
         // Islamic
-        case "hijr":
-            apiInfoDiv.innerHTML = "<p>API to get the current Hijri date.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
-            apiLinkBtn.disabled = false;
-            break;
-        case "sholat":
+        case "jadwalsholat":
             apiInfoDiv.innerHTML =
                 "<p>API to get prayer schedules now.</p>" +
-                '<p><strong>Headers:</strong><br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
+                '<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %region%, %shubuh%, %dhuha%, %dzuhur%, %ashr%, %maghrib%, and %isya%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
             apiLinkBtn.disabled = false;
             break;
 
         // Random Text
         case "bucin":
-            apiInfoDiv.innerHTML = "<p>API to get text Bucin randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Bucin randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "dare":
-            apiInfoDiv.innerHTML = "<p>API to get text Dare randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Dare randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "hacker":
-            apiInfoDiv.innerHTML = "<p>API to get text Hacker randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Hacker randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "pantun":
-            apiInfoDiv.innerHTML = "<p>API to get text Pantun randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Pantun randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "quotes":
-            apiInfoDiv.innerHTML = "<p>API to get text Quotes randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Quotes randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
         case "truth":
-            apiInfoDiv.innerHTML = "<p>API to get text Truth randomly.</p>" + "<p><strong>Headers:</strong><br>There isn't any.</p>";
+            apiInfoDiv.innerHTML = "<p>API to get text Truth randomly.</p>" + "<p><strong>Headers:</strong><br>MESSAGE_REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
             apiLinkBtn.disabled = false;
             break;
 
@@ -120,11 +116,8 @@ function visitApi() {
             break;
 
         // Islamic
-        case "hijr":
-            window.open("api/islamic/hijr.php", "_blank");
-            break;
-        case "sholat":
-            window.open("api/islamic/sholat.php", "_blank");
+        case "jadwalsholat":
+            window.open("api/islamic/jadwalsholat.php", "_blank");
             break;
 
         // Random Text
@@ -157,17 +150,23 @@ function visitCredits(type) {
     let url;
 
     switch (type) {
-        case "akhiro": // AkhiroGEN
+        case "akhiro": // AkhiroBOT Rest APIs
             url = "https://akhiro-rest-api.onrender.com/";
             break;
-        case "bohr.io": // Bohr IO
+        case "api-gabut": // API Gabut
+            url = "https://api-gabut.bohr.io/";
+            break;
+        case "bohr-io": // Bohr IO
             url = "https://bohr.io/";
             break;
-        case "AutoResponderAI_ID": // Komunitas AutoResponder.ai ID
+        case "AutoResponderAI-ID": // Komunitas AutoResponder.ai ID
             url = "https://t.me/AutoResponderAI_ID";
             break;
-        case "myquran":
-            url = "https://bit.ly/API-myQuran-v2"; // API Muslim v2 - by myQuran
+        case "ngodingaja": // Milfu Rest APIs
+            url = "https://api.ngodingaja.my.id/";
+            break;
+        case "nyx": // Nyx Rest-Api
+            url = "https://api.nyx.my.id/";
             break;
         case "sandipbaruwal": // OtinXSandip API
             url = "https://sandipbaruwal.onrender.com/";

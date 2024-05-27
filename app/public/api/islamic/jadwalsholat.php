@@ -14,9 +14,9 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 // Function
-function getBlackBoxResponse($query)
+function getSholatResponse($message)
 {
-    $api_url = "https://akhiro-rest-api.onrender.com/api/blackbox?q=" . urlencode($query);
+    $api_url = "https://api-gabut.bohr.io/api/jadwalsholat?query=" . urlencode($message);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
@@ -29,7 +29,7 @@ function getBlackBoxResponse($query)
 
     if ($http_code == 200 && $response) {
         $data = json_decode($response, true);
-        return isset($data["data"]) ? $data["data"] : null;
+        return isset($data["result"]) ? $data["result"] : null;
     }
 
     return null;
@@ -47,12 +47,17 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
-    $defaultMessage = "%response%";
+    $defaultMessage = "➲ %region%\n";
+    $defaultMessage .= "➲ Shubuh: %shubuh%\n";
+    $defaultMessage .= "➲ Dzuhur: %dzuhur%\n";
+    $defaultMessage .= "➲ Ashr: %ashr%\n";
+    $defaultMessage .= "➲ Maghrib: %maghrib%\n";
+    $defaultMessage .= "➲ Isya: %isya%";
 
     $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
 
-    $variable = ['%response%'];
-    $replace = [];
+    $variable = ['%region%', '%shubuh%', '%dzuhur%', '%ashr%', '%maghrib%', '%isya%'];
+    $replace = [$result['region'], $result['schedule']['today']['Shubuh'], $result['schedule']['today']['Dzuhur'], $result['schedule']['today']['Ashr'], $result['schedule']['today']['Maghrib'], $result['schedule']['today']['Isya']];
 
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
@@ -60,12 +65,24 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             if (preg_match($regexPattern, $message, $argument)) {
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $response = str_replace($variable, [getBlackBoxResponse($argument1)], $messageReplies);
+                $result = getSholatResponse($argument1);
+                if (is_array($result)) {
+                    $response = str_replace($variable, $replace, $messageReplies);
+                } else {
+                    $response = $result;
+                }
+
                 $replies = ["replies" => [["message" => $response]]];
             }
         }
     } else {
-        $response = str_replace($variable, [getBlackBoxResponse($message)], $messageReplies);
+        $result = getSholatResponse($message);
+        if (is_array($result)) {
+            $response = str_replace($variable, $replace, $messageReplies);
+        } else {
+            $response = $result;
+        }
+
         $replies = ["replies" => [["message" => $response]]];
     }
 

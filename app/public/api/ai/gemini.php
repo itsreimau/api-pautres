@@ -17,8 +17,22 @@ $data = json_decode(file_get_contents("php://input"));
 function getGeminiResponse($prompt)
 {
     $api_url = "https://sandipbaruwal.onrender.com/gemini?prompt=" . urlencode($prompt);
-    $response = @file_get_contents($api_url);
-    return $response ? json_decode($response, true)["answer"] : null;
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($http_code == 200 && $response) {
+        $data = json_decode($response, true);
+        return isset($data["answer"]) ? $data["answer"] : null;
+    }
+
+    return null;
 }
 
 // Make sure JSON data is not incomplete
@@ -33,18 +47,25 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     $isTestMessage = $data->query->isTestMessage;
 
     // Process messages here
+    $defaultMessage = "%response%";
+
+    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+
+    $variable = ['%response%'];
+    $replace = [];
+
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
             if (preg_match($regexPattern, $message, $argument)) {
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $response = getGeminiResponse($argument1);
+                $response = str_replace($variable, [getGeminiResponse($argument1)], $messageReplies);
                 $replies = ["replies" => [["message" => $response]]];
             }
         }
     } else {
-        $response = getGeminiResponse($message);
+        $response = str_replace($variable, [getGeminiResponse($message)], $messageReplies);
         $replies = ["replies" => [["message" => $response]]];
     }
 

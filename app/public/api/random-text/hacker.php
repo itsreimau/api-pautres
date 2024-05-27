@@ -63,8 +63,17 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
         "cinta kita tak akan bisa dipisahkan walau setebal apapun itu firewall...!!",
     ];
 
+    $defaultMessage = "%text%";
+
+    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+
+    $variable = ['%text%'];
+    $replace = [];
+
+    $response = str_replace($variable, [pickRandom($hacker)], $messageReplies);
+
     http_response_code(200);
-    echo json_encode(["replies" => [["message" => pickRandom($hacker)]]]);
+    echo json_encode(["replies" => [["message" => $response]]]);
 } else {
     http_response_code(400);
     echo json_encode(["replies" => [["message" => "❌ Error!"], ["message" => "JSON data is incomplete. Was the request sent by AutoResponder?"]]]);
