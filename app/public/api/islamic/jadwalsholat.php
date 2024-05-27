@@ -59,19 +59,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     $messageReplies = isset($_SERVER["HTTP_REPLIES"]) ? $_SERVER["HTTP_REPLIES"] : $defaultMessage;
 
-    $variable = ['%region%', '%imsak%', '%subuh%', '%terbit%', '%dhuha%', '%dzuhur%', '%ashar%', '%maghrib%', '%isya%'];
-    $replace = [
-        $result['region'],
-        $result['schedule']['today']['imsak'],
-        $result['schedule']['today']['subuh'],
-        $result['schedule']['today']['terbit'],
-        $result['schedule']['today']['dhuha'],
-        $result['schedule']['today']['dzuhur'],
-        $result['schedule']['today']['ashar'],
-        $result['schedule']['today']['maghrib'],
-        $result['schedule']['today']['isya'],
-    ];
-
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
@@ -80,6 +67,18 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
                 $result = getSholatResponse($argument1);
                 if (is_array($result)) {
+                    $variable = ['%region%', '%imsak%', '%subuh%', '%terbit%', '%dhuha%', '%dzuhur%', '%ashar%', '%maghrib%', '%isya%'];
+                    $replace = [
+                        $result['region'],
+                        $result['schedule']['today']['imsak'],
+                        $result['schedule']['today']['subuh'],
+                        $result['schedule']['today']['terbit'],
+                        $result['schedule']['today']['dhuha'],
+                        $result['schedule']['today']['dzuhur'],
+                        $result['schedule']['today']['ashar'],
+                        $result['schedule']['today']['maghrib'],
+                        $result['schedule']['today']['isya'],
+                    ];
                     $response = str_replace($variable, $replace, $messageReplies);
                 } else {
                     $response = $result;
@@ -91,6 +90,19 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     } else {
         $result = getSholatResponse($message);
         if (is_array($result)) {
+            $variable = ['%region%', '%imsak%', '%subuh%', '%terbit%', '%dhuha%', '%dzuhur%', '%ashar%', '%maghrib%', '%isya%'];
+            $replace = [
+                $result['region'],
+                $result['schedule']['today']['imsak'],
+                $result['schedule']['today']['subuh'],
+                $result['schedule']['today']['terbit'],
+                $result['schedule']['today']['dhuha'],
+                $result['schedule']['today']['dzuhur'],
+                $result['schedule']['today']['ashar'],
+                $result['schedule']['today']['maghrib'],
+                $result['schedule']['today']['isya'],
+            ];
+
             $response = str_replace($variable, $replace, $messageReplies);
         } else {
             $response = $result;

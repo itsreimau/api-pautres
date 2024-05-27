@@ -73,9 +73,6 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     $messageReplies = isset($_SERVER["HTTP_REPLIES"]) ? $_SERVER["HTTP_REPLIES"] : $defaultMessage;
 
-    $variable = ['%response%'];
-    $replace = [];
-
     if (isset($_SERVER["HTTP_EXPERIMENTAL"]) && $_SERVER["HTTP_EXPERIMENTAL"] === "true") {
         if (isset($_SERVER["HTTP_REGEX"])) {
             $regexPattern = $_SERVER["HTTP_REGEX"];
@@ -83,12 +80,16 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
                 $apiChoice = $_SERVER["HTTP_API"];
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
-                $response = str_replace($variable, [getChatGPTResponse($argument1, $apiChoice)], $messageReplies);
+                $variable = ['%response%'];
+                $replace = [getChatGPTResponse($argument1, $apiChoice)];
+                $response = str_replace($variable, $replace, $messageReplies);
                 $replies = ["replies" => [["message" => $response]]];
             }
         }
     } else {
-        $response = str_replace($variable, [getChatGPTResponse($message, $apiChoice)], $messageReplies);
+        $variable = ['%response%'];
+        $replace = [getChatGPTResponse($message, $apiChoice)];
+        $response = str_replace($variable, $replace, $messageReplies);
         $replies = ["replies" => [["message" => $response]]];
     }
 
