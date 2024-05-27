@@ -13,7 +13,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-function getChatGPTResponse($query, $api_choice = null)
+function getChatGPTResponse($query, $API = null)
 {
     $urls = [
         "akhiro" => "https://akhiro-rest-api.onrender.com/api/gpt4?q=" . urlencode($query),
@@ -23,8 +23,8 @@ function getChatGPTResponse($query, $api_choice = null)
         "nyx_turbo" => "https://api.nyx.my.id/ai/turbo?text=" . urlencode($query),
     ];
 
-    if ($api_choice && isset($urls[$api_choice])) {
-        $urls = [$api_choice => $urls[$api_choice]];
+    if ($API && isset($urls[$API])) {
+        $urls = [$API => $urls[$API]];
     }
 
     foreach ($urls as $api_url) {
@@ -71,7 +71,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
     // Process messages here
     $defaultMessage = "%response%";
 
-    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+    $messageReplies = isset($_SERVER["HTTP_REPLIES"]) ? $_SERVER["HTTP_REPLIES"] : $defaultMessage;
 
     $variable = ['%response%'];
     $replace = [];
@@ -81,7 +81,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
             $regexPattern = $_SERVER["HTTP_REGEX"];
             if (preg_match($regexPattern, $message, $argument)) {
                 $capturingGroup1 = isset($_SERVER["HTTP_ARG1"]) ? $_SERVER["HTTP_ARG1"] : 1;
-                $apiChoice = $_SERVER["HTTP_API_CHOICE"];
+                $apiChoice = $_SERVER["HTTP_API"];
                 $argument1 = isset($argument[$capturingGroup1]) ? trim($argument[$capturingGroup1]) : '';
                 $response = str_replace($variable, [getChatGPTResponse($argument1, $apiChoice)], $messageReplies);
                 $replies = ["replies" => [["message" => $response]]];

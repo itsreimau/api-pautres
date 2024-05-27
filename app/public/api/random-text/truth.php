@@ -98,7 +98,7 @@ if (!empty($data->query) && !empty($data->appPackageName) && !empty($data->messe
 
     $defaultMessage = "%text%";
 
-    $messageReplies = isset($_SERVER["HTTP_MESSAGE_REPLIES"]) ? $_SERVER["HTTP_MESSAGE_REPLIES"] : $defaultMessage;
+    $messageReplies = isset($_SERVER["HTTP_REPLIES"]) ? $_SERVER["HTTP_REPLIES"] : $defaultMessage;
 
     $variable = ['%text%'];
     $replace = [];
