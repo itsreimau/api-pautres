@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input"));
 // Function
 function getSholatResponse($message)
 {
-    $api_url = "https://api-gabut.bohr.io/api/jadwalsholat?query=" . urlencode($message);
+    $api_url = "https://api-gabut.bohr.io/api/jadwal-sholat?query=" . urlencode($message);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
