@@ -46,14 +46,6 @@ function displayApiInfo() {
             apiLinkBtn.disabled = false;
             break;
 
-        // Islamic
-        case "jadwalsholat":
-            apiInfoDiv.innerHTML =
-                "<p>API to get prayer schedules now.</p>" +
-                '<p><strong>Headers:</strong><br>REPLIES - Optional, to send a custom replies message. Available variables: %region%, %shubuh%, %dhuha%, %dzuhur%, %ashr%, %maghrib%, and %isya%.<br>EXPERIMENTAL - Optional, for experimental use. Enter "true" to use it.</br>REGEX - Must if use EXPERIMENTAL, to combine REGEX and messages.</br>ARG1 - Must if using EXPERIMENTAL, to retrieve messages in a capture group to use as argument.</p>';
-            apiLinkBtn.disabled = false;
-            break;
-
         // Random Text
         case "bucin":
             apiInfoDiv.innerHTML = "<p>API to get text Bucin randomly.</p>" + "<p><strong>Headers:</strong><br>REPLIES - Optional, to send a custom replies message. Available variables: %text%.</p>";
@@ -113,11 +105,6 @@ function visitApi() {
         // Fun
         case "simsimi":
             window.open("api/fun/simsimi.php", "_blank");
-            break;
-
-        // Islamic
-        case "jadwalsholat":
-            window.open("api/islamic/jadwalsholat.php", "_blank");
             break;
 
         // Random Text
