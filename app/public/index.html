@@ -10,11 +10,12 @@
         <div class="container">
             <h1>Welcome to API Pautres!</h1>
             <p>Pautres is a Web Server-based API that can be integrated into AutoResponder applications.</p>
+            <p><strong>Notice:</strong> This API is no longer maintained. Please switch to <a href="http://mtl1.micium-hosting.com:1334/api">api-nautres</a> for continued service and support.</p>
 
             <div id="apiOptions">
                 <label for="apiSelect">Choose an API:</label>
                 <select id="apiSelect" onchange="displayApiInfo()">
-                    <option value="" disabled selected hidden>Click here</option>
+                    <option value="" disabled selected hidden>Select an API</option>
                     <optgroup label="AI">
                         <option value="chatgpt">ChatGPT</option>
                         <option value="blackbox">BlackBox</option>
@@ -46,7 +47,7 @@
         </div>
 
         <div class="container">
-            <h2>Tutorial: How to Use the API</h2>
+            <h2>How to Use the API</h2>
             <ol>
                 <li>Add a new AutoResponder rule.</li>
                 <li>
@@ -63,25 +64,25 @@
 
         <div class="container">
             <h2>Contribution</h2>
-            <p>Those who were awesome in helping develop this API:</p>
-            <button id="apiLinkBtn" onclick="visitCredits('akhiro')">AkhiroBOT Rest APIs</button>
-            <button id="apiLinkBtn" onclick="visitCredits('api-gabut')">API Gabut</button>
-            <button id="apiLinkBtn" onclick="visitCredits('bohr-io')">Bohr IO</button>
-            <button id="apiLinkBtn" onclick="visitCredits('AutoResponderAI-ID')">Komunitas AutoResponder.ai ID</button>
-            <button id="apiLinkBtn" onclick="visitCredits('ngodingaja')">Milfu Rest APIs</button>
-            <button id="apiLinkBtn" onclick="visitCredits('nyx')">Nyx Rest-Api</button>
-            <button id="apiLinkBtn" onclick="visitCredits('sandipbaruwal')">OtinXSandip API</button>
+            <p>Special thanks to:</p>
+            <button class="creditBtn" onclick="visitCredits('akhiro')">AkhiroBOT Rest APIs</button>
+            <button class="creditBtn" onclick="visitCredits('bohr-io')">Bohr IO</button>
+            <button class="creditBtn" onclick="visitCredits('AutoResponderAI-ID')">Komunitas AutoResponder.ai ID</button>
+            <button class="creditBtn" onclick="visitCredits('ngodingaja')">Milfu Rest APIs</button>
+            <button class="creditBtn" onclick="visitCredits('nyx')">Nyx Rest-Api</button>
+            <button class="creditBtn" onclick="visitCredits('sandipbaruwal')">OtinXSandip API</button>
         </div>
 
         <div class="container">
             <h2>Donate</h2>
-            <p>Support the developer by donating:</p>
-            <button id="apiLinkBtn" onclick="visitDonate('saweria')">Saweria</button>
-            <button id="apiLinkBtn" onclick="visitDonate('trakteer')">Trakteer</button>
+            <p>Support the developer:</p>
+            <button class="donateBtn" onclick="visitDonate('paypal')">PayPal</button>
+            <button class="donateBtn" onclick="visitDonate('saweria')">Saweria</button>
+            <button class="donateBtn" onclick="visitDonate('trakteer')">Trakteer</button>
         </div>
 
         <footer>
-            <p>Copyright &copy; 2024 <a href="https://itsreimau.is-a.dev/">ItsReimau</a>. All Rights Reserved.</p>
+            <p>&copy; 2024 <a href="https://itsreimau.is-a.dev/">ItsReimau</a>. All Rights Reserved.</p>
         </footer>
 
         <script src="assets/js/script.js"></script>

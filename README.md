@@ -1,3 +1,4 @@
+> **Warning:** This script is no longer maintained.
 
 # php-template
 

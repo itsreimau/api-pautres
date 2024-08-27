@@ -140,9 +140,6 @@ function visitCredits(type) {
         case "akhiro": // AkhiroBOT Rest APIs
             url = "https://akhiro-rest-api.onrender.com/";
             break;
-        case "api-gabut": // API Gabut
-            url = "https://api-gabut.bohr.io/";
-            break;
         case "bohr-io": // Bohr IO
             url = "https://bohr.io/";
             break;
@@ -171,6 +168,9 @@ function visitDonate(type) {
     let url;
 
     switch (type) {
+        case "paypal":
+            url = "https://paypal.me/itsreimau";
+            break;
         case "saweria":
             url = "https://saweria.co/itsreimau";
             break;
